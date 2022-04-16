@@ -1,0 +1,61 @@
+{
+    "methods": {
+        "transfer_tokens": {
+            "argument": "bridge.transfer_tokens_arguments",
+            "return": "bridge.transfer_tokens_result",
+            "description": "Transfer tokens",
+            "entry_point": "0x1d2e4ff3",
+            "read-only": false
+        },
+        "complete_transfer": {
+            "argument": "bridge.complete_transfer_arguments",
+            "return": "bridge.complete_transfer_result",
+            "description": "Complete a bridge transfer",
+            "entry_point": "0x4d4d3ef9",
+            "read-only": false
+        },
+        "add_validator": {
+            "argument": "bridge.add_validator_arguments",
+            "return": "bridge.add_validator_result",
+            "description": "Add a new validator",
+            "entry_point": "0xfc15f1be",
+            "read-only": false
+        },
+        "remove_validator": {
+            "argument": "bridge.remove_validator_arguments",
+            "return": "bridge.remove_validator_result",
+            "description": "Remove an existing validator",
+            "entry_point": "0xff61ff26",
+            "read-only": false
+        },
+        "add_supported_token": {
+            "argument": "bridge.add_supported_token_arguments",
+            "return": "bridge.add_supported_token_result",
+            "description": "Add support for a new token",
+            "entry_point": "0xc5ce0923",
+            "read-only": false
+        },
+        "remove_supported_token": {
+            "argument": "bridge.remove_supported_token_arguments",
+            "return": "bridge.remove_supported_token_result",
+            "description": "Remove an existing supported token",
+            "entry_point": "0x2d3a597e",
+            "read-only": false
+        },
+        "add_supported_wrapped_token": {
+            "argument": "bridge.add_supported_wrapped_token_arguments",
+            "return": "bridge.add_supported_wrapped_token_result",
+            "description": "Add support for a new wrapped token",
+            "entry_point": "0x5457c617",
+            "read-only": false
+        },
+        "remove_supported_wrapped_token": {
+            "argument": "bridge.remove_supported_wrapped_token_arguments",
+            "return": "bridge.remove_supported_wrapped_token_result",
+            "description": "Remove an existing supported token",
+            "entry_point": "0x927c7515",
+            "read-only": false
+        }
+    },
+    "types": "CrcKCiJicmlkZ2UvYXNzZW1ibHkvcHJvdG8vYnJpZGdlLnByb3RvEgZicmlkZ2UaFGtvaW5vcy9vcHRpb25zLnByb3RvIm0KGXRyYW5zZmVyX3Rva2Vuc19hcmd1bWVudHMSGgoFdG9rZW4YASABKAxCBIC1GAVSBXRva2VuEhYKBmFtb3VudBgCIAEoBFIGYW1vdW50EhwKCXJlY2lwaWVudBgDIAEoCVIJcmVjaXBpZW50IhgKFnRyYW5zZmVyX3Rva2Vuc19yZXN1bHQiwAEKG2NvbXBsZXRlX3RyYW5zZmVyX2FyZ3VtZW50cxIrCg50cmFuc2FjdGlvbl9pZBgBIAEoDEIEgLUYBFINdHJhbnNhY3Rpb25JZBIaCgV0b2tlbhgCIAEoDEIEgLUYBVIFdG9rZW4SIgoJcmVjaXBpZW50GAMgASgMQgSAtRgGUglyZWNpcGllbnQSFAoFdmFsdWUYBCABKARSBXZhbHVlEh4KCnNpZ25hdHVyZXMYBiADKAxSCnNpZ25hdHVyZXMiGgoYY29tcGxldGVfdHJhbnNmZXJfcmVzdWx0Il0KF2FkZF92YWxpZGF0b3JfYXJndW1lbnRzEh4KCnNpZ25hdHVyZXMYASADKAxSCnNpZ25hdHVyZXMSIgoJdmFsaWRhdG9yGAIgASgMQgSAtRgGUgl2YWxpZGF0b3IiFgoUYWRkX3ZhbGlkYXRvcl9yZXN1bHQiYAoacmVtb3ZlX3ZhbGlkYXRvcl9hcmd1bWVudHMSHgoKc2lnbmF0dXJlcxgBIAMoDFIKc2lnbmF0dXJlcxIiCgl2YWxpZGF0b3IYAiABKAxCBIC1GAZSCXZhbGlkYXRvciIZChdyZW1vdmVfdmFsaWRhdG9yX3Jlc3VsdCJbCh1hZGRfc3VwcG9ydGVkX3Rva2VuX2FyZ3VtZW50cxIeCgpzaWduYXR1cmVzGAEgAygMUgpzaWduYXR1cmVzEhoKBXRva2VuGAIgASgMQgSAtRgFUgV0b2tlbiIcChphZGRfc3VwcG9ydGVkX3Rva2VuX3Jlc3VsdCJeCiByZW1vdmVfc3VwcG9ydGVkX3Rva2VuX2FyZ3VtZW50cxIeCgpzaWduYXR1cmVzGAEgAygMUgpzaWduYXR1cmVzEhoKBXRva2VuGAIgASgMQgSAtRgFUgV0b2tlbiIfCh1yZW1vdmVfc3VwcG9ydGVkX3Rva2VuX3Jlc3VsdCJjCiVhZGRfc3VwcG9ydGVkX3dyYXBwZWRfdG9rZW5fYXJndW1lbnRzEh4KCnNpZ25hdHVyZXMYASADKAxSCnNpZ25hdHVyZXMSGgoFdG9rZW4YAiABKAxCBIC1GAVSBXRva2VuIiQKImFkZF9zdXBwb3J0ZWRfd3JhcHBlZF90b2tlbl9yZXN1bHQiZgoocmVtb3ZlX3N1cHBvcnRlZF93cmFwcGVkX3Rva2VuX2FyZ3VtZW50cxIeCgpzaWduYXR1cmVzGAEgAygMUgpzaWduYXR1cmVzEhoKBXRva2VuGAIgASgMQgSAtRgFUgV0b2tlbiInCiVyZW1vdmVfc3VwcG9ydGVkX3dyYXBwZWRfdG9rZW5fcmVzdWx0IicKD21ldGFkYXRhX29iamVjdBIUCgVub25jZRgBIAEoBFIFbm9uY2UiEgoQdmFsaWRhdG9yX29iamVjdCIgCh5zdXBwb3J0ZWRfd3JhcHBlZF90b2tlbl9vYmplY3QiGAoWc3VwcG9ydGVkX3Rva2VuX29iamVjdGIGcHJvdG8z"
+}

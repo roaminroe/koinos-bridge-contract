@@ -1,48 +1,18 @@
-import { Calculator } from "../Calculator";
-import * as calculator from "../proto/calculator";
+import { MockVM, Base58 } from "koinos-sdk-as";
+import { Bridge } from "../Bridge";
+import * as bridge from "../proto/bridge";
 
-describe("calculator", () => {
-  it("should add", () => {
-    const calc = new Calculator();
+const CONTRACT_ID = Base58.decode("1DQzuCcTKacbs9GGScRTU1Hc8BsyARTPqe");
 
-    const args = new calculator.add_arguments(1, 923);
-    const res = calc.add(args);
-
-    console.log("add: " + res.value.toString());
-
-    expect(res.value).toBe(924);
+describe("bridge", () => {
+  beforeEach(() => {
+    MockVM.reset();
+    MockVM.setContractId(CONTRACT_ID);
   });
 
-  it("should sub", () => {
-    const calc = new Calculator();
+  it("TODO", () => {
+    const bridge = new Bridge();
 
-    const args = new calculator.sub_arguments(9, 1);
-    const res = calc.sub(args);
-
-    console.log("sub: " + res.value.toString());
-
-    expect(res.value).toBe(8);
-  });
-
-  it("should mul", () => {
-    const calc = new Calculator();
-
-    const args = new calculator.mul_arguments(9, 9);
-    const res = calc.mul(args);
-
-    console.log("mul: " + res.value.toString());
-
-    expect(res.value).toBe(81);
-  });
-
-  it("should div", () => {
-    const calc = new Calculator();
-
-    const args = new calculator.div_arguments(999, 9);
-    const res = calc.div(args);
-
-    console.log("div: " + res.value.toString());
-
-    expect(res.value).toBe(111);
+    expect(true).toBe(true);
   });
 });

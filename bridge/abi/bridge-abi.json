@@ -1,0 +1,258 @@
+{
+    "methods": {
+        "transfer_tokens": {
+            "input": "bridge.transfer_tokens_arguments",
+            "output": "bridge.transfer_tokens_result",
+            "description": "Transfer tokens",
+            "entryPoint": 489574387,
+            "readOnly": false
+        },
+        "complete_transfer": {
+            "input": "bridge.complete_transfer_arguments",
+            "output": "bridge.complete_transfer_result",
+            "description": "Complete a bridge transfer",
+            "entryPoint": 1296908025,
+            "readOnly": false
+        },
+        "add_validator": {
+            "input": "bridge.add_validator_arguments",
+            "output": "bridge.add_validator_result",
+            "description": "Add a new validator",
+            "entryPoint": 4229296574,
+            "readOnly": false
+        },
+        "remove_validator": {
+            "input": "bridge.remove_validator_arguments",
+            "output": "bridge.remove_validator_result",
+            "description": "Remove an existing validator",
+            "entryPoint": 4284612390,
+            "readOnly": false
+        },
+        "add_supported_token": {
+            "input": "bridge.add_supported_token_arguments",
+            "output": "bridge.add_supported_token_result",
+            "description": "Add support for a new token",
+            "entryPoint": 3318614307,
+            "readOnly": false
+        },
+        "remove_supported_token": {
+            "input": "bridge.remove_supported_token_arguments",
+            "output": "bridge.remove_supported_token_result",
+            "description": "Remove an existing supported token",
+            "entryPoint": 758798718,
+            "readOnly": false
+        },
+        "add_supported_wrapped_token": {
+            "input": "bridge.add_supported_wrapped_token_arguments",
+            "output": "bridge.add_supported_wrapped_token_result",
+            "description": "Add support for a new wrapped token",
+            "entryPoint": 1415038487,
+            "readOnly": false
+        },
+        "remove_supported_wrapped_token": {
+            "input": "bridge.remove_supported_wrapped_token_arguments",
+            "output": "bridge.remove_supported_wrapped_token_result",
+            "description": "Remove an existing supported token",
+            "entryPoint": 2457629973,
+            "readOnly": false
+        }
+    },
+    "types": {
+        "nested": {
+            "bridge": {
+                "nested": {
+                    "transfer_tokens_arguments": {
+                        "fields": {
+                            "token": {
+                                "type": "bytes",
+                                "id": 1,
+                                "options": {
+                                    "(koinos.btype)": "CONTRACT_ID"
+                                }
+                            },
+                            "amount": {
+                                "type": "uint64",
+                                "id": 2
+                            },
+                            "recipient": {
+                                "type": "string",
+                                "id": 3
+                            }
+                        }
+                    },
+                    "transfer_tokens_result": {
+                        "fields": {}
+                    },
+                    "complete_transfer_arguments": {
+                        "fields": {
+                            "transactionId": {
+                                "type": "bytes",
+                                "id": 1,
+                                "options": {
+                                    "(koinos.btype)": "TRANSACTION_ID"
+                                }
+                            },
+                            "token": {
+                                "type": "bytes",
+                                "id": 2,
+                                "options": {
+                                    "(koinos.btype)": "CONTRACT_ID"
+                                }
+                            },
+                            "recipient": {
+                                "type": "bytes",
+                                "id": 3,
+                                "options": {
+                                    "(koinos.btype)": "ADDRESS"
+                                }
+                            },
+                            "value": {
+                                "type": "uint64",
+                                "id": 4
+                            },
+                            "signatures": {
+                                "rule": "repeated",
+                                "type": "bytes",
+                                "id": 6
+                            }
+                        }
+                    },
+                    "complete_transfer_result": {
+                        "fields": {}
+                    },
+                    "add_validator_arguments": {
+                        "fields": {
+                            "signatures": {
+                                "rule": "repeated",
+                                "type": "bytes",
+                                "id": 1
+                            },
+                            "validator": {
+                                "type": "bytes",
+                                "id": 2,
+                                "options": {
+                                    "(koinos.btype)": "ADDRESS"
+                                }
+                            }
+                        }
+                    },
+                    "add_validator_result": {
+                        "fields": {}
+                    },
+                    "remove_validator_arguments": {
+                        "fields": {
+                            "signatures": {
+                                "rule": "repeated",
+                                "type": "bytes",
+                                "id": 1
+                            },
+                            "validator": {
+                                "type": "bytes",
+                                "id": 2,
+                                "options": {
+                                    "(koinos.btype)": "ADDRESS"
+                                }
+                            }
+                        }
+                    },
+                    "remove_validator_result": {
+                        "fields": {}
+                    },
+                    "add_supported_token_arguments": {
+                        "fields": {
+                            "signatures": {
+                                "rule": "repeated",
+                                "type": "bytes",
+                                "id": 1
+                            },
+                            "token": {
+                                "type": "bytes",
+                                "id": 2,
+                                "options": {
+                                    "(koinos.btype)": "CONTRACT_ID"
+                                }
+                            }
+                        }
+                    },
+                    "add_supported_token_result": {
+                        "fields": {}
+                    },
+                    "remove_supported_token_arguments": {
+                        "fields": {
+                            "signatures": {
+                                "rule": "repeated",
+                                "type": "bytes",
+                                "id": 1
+                            },
+                            "token": {
+                                "type": "bytes",
+                                "id": 2,
+                                "options": {
+                                    "(koinos.btype)": "CONTRACT_ID"
+                                }
+                            }
+                        }
+                    },
+                    "remove_supported_token_result": {
+                        "fields": {}
+                    },
+                    "add_supported_wrapped_token_arguments": {
+                        "fields": {
+                            "signatures": {
+                                "rule": "repeated",
+                                "type": "bytes",
+                                "id": 1
+                            },
+                            "token": {
+                                "type": "bytes",
+                                "id": 2,
+                                "options": {
+                                    "(koinos.btype)": "CONTRACT_ID"
+                                }
+                            }
+                        }
+                    },
+                    "add_supported_wrapped_token_result": {
+                        "fields": {}
+                    },
+                    "remove_supported_wrapped_token_arguments": {
+                        "fields": {
+                            "signatures": {
+                                "rule": "repeated",
+                                "type": "bytes",
+                                "id": 1
+                            },
+                            "token": {
+                                "type": "bytes",
+                                "id": 2,
+                                "options": {
+                                    "(koinos.btype)": "CONTRACT_ID"
+                                }
+                            }
+                        }
+                    },
+                    "remove_supported_wrapped_token_result": {
+                        "fields": {}
+                    },
+                    "metadata_object": {
+                        "fields": {
+                            "nonce": {
+                                "type": "uint64",
+                                "id": 1
+                            }
+                        }
+                    },
+                    "validator_object": {
+                        "fields": {}
+                    },
+                    "supported_wrapped_token_object": {
+                        "fields": {}
+                    },
+                    "supported_token_object": {
+                        "fields": {}
+                    }
+                }
+            }
+        }
+    }
+}

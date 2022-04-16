@@ -1,0 +1,108 @@
+syntax = "proto3";
+
+package bridge;
+
+import "koinos/options.proto"; 
+
+// Entrypoints
+
+// @description Transfer tokens
+// @read-only false
+message transfer_tokens_arguments {
+  bytes token = 1 [(koinos.btype) = CONTRACT_ID];
+  uint64 amount = 2;
+  string recipient = 3;
+}
+
+message transfer_tokens_result {
+}
+
+// @description Complete a bridge transfer
+// @read-only false
+message complete_transfer_arguments {
+  bytes transaction_id = 1 [(koinos.btype) = TRANSACTION_ID];
+  bytes token = 2 [(koinos.btype) = CONTRACT_ID];
+  bytes recipient = 3 [(koinos.btype) = ADDRESS];
+  uint64 value = 4;
+  repeated bytes signatures = 6;
+}
+
+message complete_transfer_result {
+}
+
+// @description Add a new validator
+// @read-only false
+message add_validator_arguments {
+  repeated bytes signatures = 1;
+  bytes validator = 2 [(koinos.btype) = ADDRESS];
+}
+
+message add_validator_result {
+}
+
+// @description Remove an existing validator
+// @read-only false
+message remove_validator_arguments {
+  repeated bytes signatures = 1;
+  bytes validator = 2 [(koinos.btype) = ADDRESS];
+}
+
+message remove_validator_result {
+}
+
+// @description Add support for a new token
+// @read-only false
+message add_supported_token_arguments {
+  repeated bytes signatures = 1;
+  bytes token = 2 [(koinos.btype) = CONTRACT_ID];
+}
+
+message add_supported_token_result {
+}
+
+// @description Remove an existing supported token
+// @read-only false
+message remove_supported_token_arguments {
+  repeated bytes signatures = 1;
+  bytes token = 2 [(koinos.btype) = CONTRACT_ID];
+}
+
+message remove_supported_token_result {
+}
+
+// @description Add support for a new wrapped token
+// @read-only false
+message add_supported_wrapped_token_arguments {
+  repeated bytes signatures = 1;
+  bytes token = 2 [(koinos.btype) = CONTRACT_ID];
+}
+
+message add_supported_wrapped_token_result {
+}
+
+// @description Remove an existing supported token
+// @read-only false
+message remove_supported_wrapped_token_arguments {
+  repeated bytes signatures = 1;
+  bytes token = 2 [(koinos.btype) = CONTRACT_ID];
+}
+
+message remove_supported_wrapped_token_result {
+}
+
+// Objects 
+message metadata_object {
+  uint64 nonce = 1;
+}
+
+message validator_object {
+  
+}
+
+message supported_wrapped_token_object {
+  
+}
+
+message supported_token_object {
+  
+}
