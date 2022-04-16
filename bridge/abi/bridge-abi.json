@@ -1,5 +1,12 @@
 {
     "methods": {
+        "initialize": {
+            "input": "bridge.initialize_arguments",
+            "output": "bridge.initialize_result",
+            "description": "Initialize contract",
+            "entryPoint": 1192148610,
+            "readOnly": false
+        },
         "transfer_tokens": {
             "input": "bridge.transfer_tokens_arguments",
             "output": "bridge.transfer_tokens_result",
@@ -61,6 +68,21 @@
         "nested": {
             "bridge": {
                 "nested": {
+                    "initialize_arguments": {
+                        "fields": {
+                            "initialValidators": {
+                                "rule": "repeated",
+                                "type": "bytes",
+                                "id": 1,
+                                "options": {
+                                    "(koinos.btype)": "ADDRESS"
+                                }
+                            }
+                        }
+                    },
+                    "initialize_result": {
+                        "fields": {}
+                    },
                     "transfer_tokens_arguments": {
                         "fields": {
                             "token": {
@@ -234,11 +256,35 @@
                     "remove_supported_wrapped_token_result": {
                         "fields": {}
                     },
-                    "metadata_object": {
+                    "add_remove_action_hash": {
                         "fields": {
+                            "address": {
+                                "type": "bytes",
+                                "id": 1
+                            },
                             "nonce": {
                                 "type": "uint64",
+                                "id": 2
+                            },
+                            "contractId": {
+                                "type": "bytes",
+                                "id": 3
+                            }
+                        }
+                    },
+                    "metadata_object": {
+                        "fields": {
+                            "initialized": {
+                                "type": "bool",
                                 "id": 1
+                            },
+                            "nonce": {
+                                "type": "uint64",
+                                "id": 2
+                            },
+                            "nbValidators": {
+                                "type": "uint32",
+                                "id": 3
                             }
                         }
                     },

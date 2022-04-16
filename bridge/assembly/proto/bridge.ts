@@ -1,5 +1,66 @@
 import { Writer, Reader } from "as-proto";
 
+export class initialize_arguments {
+  static encode(message: initialize_arguments, writer: Writer): void {
+    const field_initial_validators = message.initial_validators;
+    if (field_initial_validators.length !== 0) {
+      for (let i = 0; i < field_initial_validators.length; ++i) {
+        writer.uint32(10);
+        writer.bytes(field_initial_validators[i]);
+      }
+    }
+  }
+
+  static decode(reader: Reader, length: i32): initialize_arguments {
+    const end: usize = length < 0 ? reader.end : reader.ptr + length;
+    const message = new initialize_arguments();
+
+    while (reader.ptr < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.initial_validators.push(reader.bytes());
+          break;
+
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+
+    return message;
+  }
+
+  initial_validators: Array<Uint8Array>;
+
+  constructor(initial_validators: Array<Uint8Array> = []) {
+    this.initial_validators = initial_validators;
+  }
+}
+
+@unmanaged
+export class initialize_result {
+  static encode(message: initialize_result, writer: Writer): void {}
+
+  static decode(reader: Reader, length: i32): initialize_result {
+    const end: usize = length < 0 ? reader.end : reader.ptr + length;
+    const message = new initialize_result();
+
+    while (reader.ptr < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+
+    return message;
+  }
+
+  constructor() {}
+}
+
 export class transfer_tokens_arguments {
   static encode(message: transfer_tokens_arguments, writer: Writer): void {
     const field_token = message.token;
@@ -679,22 +740,41 @@ export class remove_supported_wrapped_token_result {
   constructor() {}
 }
 
-@unmanaged
-export class metadata_object {
-  static encode(message: metadata_object, writer: Writer): void {
-    writer.uint32(8);
+export class add_remove_action_hash {
+  static encode(message: add_remove_action_hash, writer: Writer): void {
+    const field_address = message.address;
+    if (field_address !== null) {
+      writer.uint32(10);
+      writer.bytes(field_address);
+    }
+
+    writer.uint32(16);
     writer.uint64(message.nonce);
+
+    const field_contract_id = message.contract_id;
+    if (field_contract_id !== null) {
+      writer.uint32(26);
+      writer.bytes(field_contract_id);
+    }
   }
 
-  static decode(reader: Reader, length: i32): metadata_object {
+  static decode(reader: Reader, length: i32): add_remove_action_hash {
     const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new metadata_object();
+    const message = new add_remove_action_hash();
 
     while (reader.ptr < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          message.address = reader.bytes();
+          break;
+
+        case 2:
           message.nonce = reader.uint64();
+          break;
+
+        case 3:
+          message.contract_id = reader.bytes();
           break;
 
         default:
@@ -706,10 +786,74 @@ export class metadata_object {
     return message;
   }
 
+  address: Uint8Array | null;
   nonce: u64;
+  contract_id: Uint8Array | null;
 
-  constructor(nonce: u64 = 0) {
+  constructor(
+    address: Uint8Array | null = null,
+    nonce: u64 = 0,
+    contract_id: Uint8Array | null = null
+  ) {
+    this.address = address;
     this.nonce = nonce;
+    this.contract_id = contract_id;
+  }
+}
+
+@unmanaged
+export class metadata_object {
+  static encode(message: metadata_object, writer: Writer): void {
+    writer.uint32(8);
+    writer.bool(message.initialized);
+
+    writer.uint32(16);
+    writer.uint64(message.nonce);
+
+    writer.uint32(24);
+    writer.uint32(message.nb_validators);
+  }
+
+  static decode(reader: Reader, length: i32): metadata_object {
+    const end: usize = length < 0 ? reader.end : reader.ptr + length;
+    const message = new metadata_object();
+
+    while (reader.ptr < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.initialized = reader.bool();
+          break;
+
+        case 2:
+          message.nonce = reader.uint64();
+          break;
+
+        case 3:
+          message.nb_validators = reader.uint32();
+          break;
+
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+
+    return message;
+  }
+
+  initialized: bool;
+  nonce: u64;
+  nb_validators: u32;
+
+  constructor(
+    initialized: bool = false,
+    nonce: u64 = 0,
+    nb_validators: u32 = 0
+  ) {
+    this.initialized = initialized;
+    this.nonce = nonce;
+    this.nb_validators = nb_validators;
   }
 }
 

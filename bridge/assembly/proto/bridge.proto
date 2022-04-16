@@ -6,6 +6,15 @@ import "koinos/options.proto";
 
 // Entrypoints
 
+// @description Initialize contract
+// @read-only false
+message initialize_arguments {
+  repeated bytes initial_validators = 1 [(koinos.btype) = ADDRESS];
+}
+
+message initialize_result {
+}
+
 // @description Transfer tokens
 // @read-only false
 message transfer_tokens_arguments {
@@ -90,11 +99,22 @@ message remove_supported_wrapped_token_arguments {
 message remove_supported_wrapped_token_result {
 }
 
-// Objects 
-message metadata_object {
-  uint64 nonce = 1;
+// Events
+
+// Objects
+message add_remove_action_hash {
+  bytes address = 1;
+  uint64 nonce = 2;
+  bytes contract_id = 3;
 }
 
+message metadata_object {
+  bool initialized = 1; 
+  uint64 nonce = 2;
+  uint32 nb_validators = 3;
+}
+
+// use an object to possibly store metadata later on
 message validator_object {
   
 }

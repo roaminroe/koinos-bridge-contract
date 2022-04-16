@@ -15,6 +15,16 @@ export function main(): i32 {
   const c = new ContractClass();
 
   switch (entryPoint) {
+    case 0x470ebe82: {
+      const args = Protobuf.decode<ProtoNamespace.initialize_arguments>(
+        rdbuf,
+        ProtoNamespace.initialize_arguments.decode
+      );
+      const res = c.initialize(args);
+      retbuf = Protobuf.encode(res, ProtoNamespace.initialize_result.encode);
+      break;
+    }
+
     case 0x1d2e4ff3: {
       const args = Protobuf.decode<ProtoNamespace.transfer_tokens_arguments>(
         rdbuf,
