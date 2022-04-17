@@ -881,15 +881,12 @@ export class validator_object {
 }
 
 @unmanaged
-export class supported_wrapped_token_object {
-  static encode(
-    message: supported_wrapped_token_object,
-    writer: Writer
-  ): void {}
+export class wrapped_token_object {
+  static encode(message: wrapped_token_object, writer: Writer): void {}
 
-  static decode(reader: Reader, length: i32): supported_wrapped_token_object {
+  static decode(reader: Reader, length: i32): wrapped_token_object {
     const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new supported_wrapped_token_object();
+    const message = new wrapped_token_object();
 
     while (reader.ptr < end) {
       const tag = reader.uint32();
@@ -907,12 +904,12 @@ export class supported_wrapped_token_object {
 }
 
 @unmanaged
-export class supported_token_object {
-  static encode(message: supported_token_object, writer: Writer): void {}
+export class token_object {
+  static encode(message: token_object, writer: Writer): void {}
 
-  static decode(reader: Reader, length: i32): supported_token_object {
+  static decode(reader: Reader, length: i32): token_object {
     const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new supported_token_object();
+    const message = new token_object();
 
     while (reader.ptr < end) {
       const tag = reader.uint32();

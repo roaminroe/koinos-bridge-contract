@@ -291,10 +291,10 @@
                     "validator_object": {
                         "fields": {}
                     },
-                    "supported_wrapped_token_object": {
+                    "wrapped_token_object": {
                         "fields": {}
                     },
-                    "supported_token_object": {
+                    "token_object": {
                         "fields": {}
                     }
                 }

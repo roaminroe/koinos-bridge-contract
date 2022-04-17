@@ -119,10 +119,10 @@ message validator_object {
   
 }
 
-message supported_wrapped_token_object {
+message wrapped_token_object {
   
 }
 
-message supported_token_object {
+message token_object {
   
 }
