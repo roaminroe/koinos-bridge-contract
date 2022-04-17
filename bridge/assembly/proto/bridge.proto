@@ -15,6 +15,16 @@ message initialize_arguments {
 message initialize_result {
 }
 
+// @description Pause/Unpause bridge
+// @read-only false
+message set_pause_arguments {
+  repeated bytes signatures = 1;
+  bool pause = 2;
+}
+
+message set_pause_result {
+}
+
 // @description Transfer tokens
 // @read-only false
 message transfer_tokens_arguments {
@@ -104,6 +114,12 @@ message remove_supported_wrapped_token_result {
 // Objects
 message add_remove_action_hash {
   bytes address = 1;
+  uint64 nonce = 2;
+  bytes contract_id = 3;
+}
+
+message set_pause_action_hash {
+  bool pause = 1;
   uint64 nonce = 2;
   bytes contract_id = 3;
 }

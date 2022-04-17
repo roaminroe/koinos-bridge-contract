@@ -25,6 +25,16 @@ export function main(): i32 {
       break;
     }
 
+    case 0x39a2c4e4: {
+      const args = Protobuf.decode<ProtoNamespace.set_pause_arguments>(
+        rdbuf,
+        ProtoNamespace.set_pause_arguments.decode
+      );
+      const res = c.set_pause(args);
+      retbuf = Protobuf.encode(res, ProtoNamespace.set_pause_result.encode);
+      break;
+    }
+
     case 0x1d2e4ff3: {
       const args = Protobuf.decode<ProtoNamespace.transfer_tokens_arguments>(
         rdbuf,

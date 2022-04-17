@@ -1,7 +1,7 @@
 import { Space } from './Space';
 import * as bridge from '../proto/bridge';
 
-const VALIDATORS_SPACE_ID = 1;
+const VALIDATORS_SPACE_ID = 100;
 
 export class Validators extends Space<Uint8Array, bridge.validator_object> {
   constructor(contractId: Uint8Array) {

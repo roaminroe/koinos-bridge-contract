@@ -7,6 +7,13 @@
             "entryPoint": 1192148610,
             "readOnly": false
         },
+        "set_pause": {
+            "input": "bridge.set_pause_arguments",
+            "output": "bridge.set_pause_result",
+            "description": "Pause/Unpause bridge",
+            "entryPoint": 966968548,
+            "readOnly": false
+        },
         "transfer_tokens": {
             "input": "bridge.transfer_tokens_arguments",
             "output": "bridge.transfer_tokens_result",
@@ -81,6 +88,22 @@
                         }
                     },
                     "initialize_result": {
+                        "fields": {}
+                    },
+                    "set_pause_arguments": {
+                        "fields": {
+                            "signatures": {
+                                "rule": "repeated",
+                                "type": "bytes",
+                                "id": 1
+                            },
+                            "pause": {
+                                "type": "bool",
+                                "id": 2
+                            }
+                        }
+                    },
+                    "set_pause_result": {
                         "fields": {}
                     },
                     "transfer_tokens_arguments": {
@@ -260,6 +283,22 @@
                         "fields": {
                             "address": {
                                 "type": "bytes",
+                                "id": 1
+                            },
+                            "nonce": {
+                                "type": "uint64",
+                                "id": 2
+                            },
+                            "contractId": {
+                                "type": "bytes",
+                                "id": 3
+                            }
+                        }
+                    },
+                    "set_pause_action_hash": {
+                        "fields": {
+                            "pause": {
+                                "type": "bool",
                                 "id": 1
                             },
                             "nonce": {

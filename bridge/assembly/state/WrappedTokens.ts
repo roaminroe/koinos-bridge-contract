@@ -1,7 +1,7 @@
 import { Space } from './Space';
 import * as bridge from '../proto/bridge';
 
-const WRAPPED_TOKENS_SPACE_ID = 3;
+const WRAPPED_TOKENS_SPACE_ID = 102;
 
 export class WrappedTokens extends Space<Uint8Array, bridge.wrapped_token_object> {
   constructor(contractId: Uint8Array) {

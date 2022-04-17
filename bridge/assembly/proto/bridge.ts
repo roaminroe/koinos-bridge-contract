@@ -61,6 +61,76 @@ export class initialize_result {
   constructor() {}
 }
 
+export class set_pause_arguments {
+  static encode(message: set_pause_arguments, writer: Writer): void {
+    const field_signatures = message.signatures;
+    if (field_signatures.length !== 0) {
+      for (let i = 0; i < field_signatures.length; ++i) {
+        writer.uint32(10);
+        writer.bytes(field_signatures[i]);
+      }
+    }
+
+    writer.uint32(16);
+    writer.bool(message.pause);
+  }
+
+  static decode(reader: Reader, length: i32): set_pause_arguments {
+    const end: usize = length < 0 ? reader.end : reader.ptr + length;
+    const message = new set_pause_arguments();
+
+    while (reader.ptr < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.signatures.push(reader.bytes());
+          break;
+
+        case 2:
+          message.pause = reader.bool();
+          break;
+
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+
+    return message;
+  }
+
+  signatures: Array<Uint8Array>;
+  pause: bool;
+
+  constructor(signatures: Array<Uint8Array> = [], pause: bool = false) {
+    this.signatures = signatures;
+    this.pause = pause;
+  }
+}
+
+@unmanaged
+export class set_pause_result {
+  static encode(message: set_pause_result, writer: Writer): void {}
+
+  static decode(reader: Reader, length: i32): set_pause_result {
+    const end: usize = length < 0 ? reader.end : reader.ptr + length;
+    const message = new set_pause_result();
+
+    while (reader.ptr < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+
+    return message;
+  }
+
+  constructor() {}
+}
+
 export class transfer_tokens_arguments {
   static encode(message: transfer_tokens_arguments, writer: Writer): void {
     const field_token = message.token;
@@ -796,6 +866,64 @@ export class add_remove_action_hash {
     contract_id: Uint8Array | null = null
   ) {
     this.address = address;
+    this.nonce = nonce;
+    this.contract_id = contract_id;
+  }
+}
+
+export class set_pause_action_hash {
+  static encode(message: set_pause_action_hash, writer: Writer): void {
+    writer.uint32(8);
+    writer.bool(message.pause);
+
+    writer.uint32(16);
+    writer.uint64(message.nonce);
+
+    const field_contract_id = message.contract_id;
+    if (field_contract_id !== null) {
+      writer.uint32(26);
+      writer.bytes(field_contract_id);
+    }
+  }
+
+  static decode(reader: Reader, length: i32): set_pause_action_hash {
+    const end: usize = length < 0 ? reader.end : reader.ptr + length;
+    const message = new set_pause_action_hash();
+
+    while (reader.ptr < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.pause = reader.bool();
+          break;
+
+        case 2:
+          message.nonce = reader.uint64();
+          break;
+
+        case 3:
+          message.contract_id = reader.bytes();
+          break;
+
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+
+    return message;
+  }
+
+  pause: bool;
+  nonce: u64;
+  contract_id: Uint8Array | null;
+
+  constructor(
+    pause: bool = false,
+    nonce: u64 = 0,
+    contract_id: Uint8Array | null = null
+  ) {
+    this.pause = pause;
     this.nonce = nonce;
     this.contract_id = contract_id;
   }

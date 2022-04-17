@@ -1,9 +1,11 @@
-import { Protobuf, System, Crypto } from "koinos-sdk-as";
-import * as bridge from "./proto/bridge";
-import { Metadata } from "./state/Metadata";
-import { Tokens } from "./state/Tokens";
-import { Validators } from "./state/Validators";
-import { WrappedTokens } from "./state/WrappedTokens";
+import { Protobuf, System, Crypto } from 'koinos-sdk-as';
+import * as bridge from './proto/bridge';
+import { Metadata } from './state/Metadata';
+import { Tokens } from './state/Tokens';
+import { Validators } from './state/Validators';
+import { WrappedTokens } from './state/WrappedTokens';
+import { Pausable } from './util/Pausable';
+import { ReentrancyGuard } from './util/ReentrancyGuard';
 
 export class Bridge {
   _contractId: Uint8Array;
@@ -14,18 +16,18 @@ export class Bridge {
 
   initialize(args: bridge.initialize_arguments): bridge.initialize_result {
     const initialValidators = args.initial_validators;
-    System.require(initialValidators.length > 0, "Validators required", 1);
+    System.require(initialValidators.length > 0, 'Validators required', 1);
 
     const metadataSpace = new Metadata(this._contractId);
     const validators = new Validators(this._contractId);
 
     const metadata = metadataSpace.get();
-    System.require(!metadata.initialized, "Contract already initialized", 1);
+    System.require(!metadata.initialized, 'Contract already initialized', 1);
 
     for (let index = 0; index < initialValidators.length; index++) {
       const validator = initialValidators[index];
 
-      System.require(!validators.has(validator), "Validator not unique", 1);
+      System.require(!validators.has(validator), 'Validator not unique', 1);
       validators.put(validator, new bridge.validator_object());
       metadata.nb_validators += 1;
     }
@@ -36,18 +38,39 @@ export class Bridge {
     return new bridge.initialize_result();
   }
 
+  set_pause(args: bridge.set_pause_arguments): bridge.set_pause_result {
+    const signatures = args.signatures;
+    const pause = args.pause;
+
+    const metadataSpace = new Metadata(this._contractId);
+    const metadata = metadataSpace.get();
+    const objToHash = new bridge.set_pause_action_hash(pause, metadata.nonce, this._contractId);
+
+    const hash = System.hash(Crypto.multicodec.sha2_256, Protobuf.encode(objToHash, bridge.set_pause_action_hash.encode))!;
+
+    this.verifySignatures(hash, signatures, metadata.nb_validators);
+
+    const pausable = new Pausable(this._contractId);
+    pausable.setPause(pause);
+    return new bridge.set_pause_result();
+  }
+
   transfer_tokens(
     args: bridge.transfer_tokens_arguments
   ): bridge.transfer_tokens_result {
-    // const token = args.token;
-    // const amount = args.amount;
-    // const recipient = args.recipient;
+    const token = args.token!;
+    const amount = args.amount;
+    const recipient = args.recipient!;
+
+    const reentrancyGuard = new ReentrancyGuard(this._contractId);
+    const pausable = new Pausable(this._contractId);
+    pausable.whenNotPaused();
 
     // YOUR CODE HERE
 
-    const res = new bridge.transfer_tokens_result();
+    reentrancyGuard.reset();
 
-    return res;
+    return new bridge.transfer_tokens_result();
   }
 
   complete_transfer(
@@ -59,11 +82,15 @@ export class Bridge {
     // const value = args.value;
     // const signatures = args.signatures;
 
+    const reentrancyGuard = new ReentrancyGuard(this._contractId);
+    const pausable = new Pausable(this._contractId);
+    pausable.whenNotPaused();
+
     // YOUR CODE HERE
 
-    const res = new bridge.complete_transfer_result();
+    reentrancyGuard.reset();
 
-    return res;
+    return new bridge.complete_transfer_result();
   }
 
   add_validator(
@@ -240,7 +267,7 @@ export class Bridge {
   verifySignatures(hash: Uint8Array, signatures: Uint8Array[], nbValidators: u32): void {
     System.require(
       signatures.length as u32 >= (((nbValidators * 10) / 3) * 2) / 10 + 1,
-      "quorum not met",
+      'quorum not met',
       1
     );
 
