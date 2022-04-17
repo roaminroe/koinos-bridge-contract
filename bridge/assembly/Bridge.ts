@@ -73,8 +73,7 @@ export class Bridge {
     const recipient = args.recipient!;
 
     const reentrancyGuard = new ReentrancyGuard(this._contractId);
-    const pausable = new Pausable(this._contractId);
-    pausable.whenNotPaused();
+    new Pausable(this._contractId).whenNotPaused();
 
     // YOUR CODE HERE
 
@@ -93,8 +92,7 @@ export class Bridge {
     // const signatures = args.signatures;
 
     const reentrancyGuard = new ReentrancyGuard(this._contractId);
-    const pausable = new Pausable(this._contractId);
-    pausable.whenNotPaused();
+    new Pausable(this._contractId).whenNotPaused();
 
     // YOUR CODE HERE
 

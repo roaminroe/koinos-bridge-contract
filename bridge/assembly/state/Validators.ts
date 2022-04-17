@@ -1,9 +1,9 @@
-import { Space } from './Space';
+import { Space } from 'koinos-sdk-as';
 import * as bridge from '../proto/bridge';
 
 const VALIDATORS_SPACE_ID = 100;
 
-export class Validators extends Space<Uint8Array, bridge.validator_object> {
+export class Validators extends Space.Space<Uint8Array, bridge.validator_object> {
   constructor(contractId: Uint8Array) {
     super(contractId, VALIDATORS_SPACE_ID, bridge.validator_object.decode, bridge.validator_object.encode);
   }

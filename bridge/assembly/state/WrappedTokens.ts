@@ -1,9 +1,9 @@
-import { Space } from './Space';
+import { Space } from 'koinos-sdk-as';
 import * as bridge from '../proto/bridge';
 
 const WRAPPED_TOKENS_SPACE_ID = 102;
 
-export class WrappedTokens extends Space<Uint8Array, bridge.wrapped_token_object> {
+export class WrappedTokens extends Space.Space<Uint8Array, bridge.wrapped_token_object> {
   constructor(contractId: Uint8Array) {
     super(contractId, WRAPPED_TOKENS_SPACE_ID, bridge.wrapped_token_object.decode, bridge.wrapped_token_object.encode);
   }

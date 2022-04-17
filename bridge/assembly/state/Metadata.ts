@@ -1,10 +1,10 @@
-import { Space } from './Space';
+import { Space } from 'koinos-sdk-as';
 import * as bridge from '../proto/bridge';
 
 const METADATA_SPACE_ID = 0;
 const METADATA_KEY = new Uint8Array(0);
 
-export class Metadata extends Space<Uint8Array, bridge.metadata_object> {
+export class Metadata extends Space.Space<Uint8Array, bridge.metadata_object> {
   constructor(contractId: Uint8Array) {
     super(contractId, METADATA_SPACE_ID, bridge.metadata_object.decode, bridge.metadata_object.encode);
   }
