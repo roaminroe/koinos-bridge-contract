@@ -52,6 +52,16 @@ export class Bridge {
 
     const pausable = new Pausable(this._contractId);
     pausable.setPause(pause);
+
+    metadata.nonce += 1;
+    metadataSpace.put(metadata);
+
+    if (pause) {
+      System.event('bridge.paused', new Uint8Array(0), []);
+    } else {
+      System.event('bridge.unpaused', new Uint8Array(0), []);
+    }
+
     return new bridge.set_pause_result();
   }
 
