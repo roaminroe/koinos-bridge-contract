@@ -1506,10 +1506,10 @@ koinos-mock-vm@^1.0.3:
     protobufjs "^6.11.2"
     somap "^0.5.14"
 
-koinos-sdk-as@^0.4.4:
-  version "0.4.4"
-  resolved "https://registry.yarnpkg.com/koinos-sdk-as/-/koinos-sdk-as-0.4.4.tgz#72a37766ee2accfb5f3d689bfc989b18b121c44e"
-  integrity sha512-FSKpaAJrT4xB6oVNwxVqmrw7E7VDCC4AvOYVLegTpMv3OLn5im6NmgwgoXoX5kL0IvRweBeXSh0hH4YRAq47qQ==
+koinos-sdk-as@^0.4.5:
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/koinos-sdk-as/-/koinos-sdk-as-0.4.5.tgz#6b68614c349c0ae3019d661ff74f5d4c3a32e25b"
+  integrity sha512-gDBAGqeD0Hw7+uMB1DgGqZzLRizZgRcKGzUZy2xn0EGwiCgmvqcFlT1y8wQ1/MbSz2n2uXvnQrC9pOFtXgfZhw==
   dependencies:
     as-bignum "^0.2.18"
     as-proto "^0.2.2"

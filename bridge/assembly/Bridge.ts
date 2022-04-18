@@ -1,4 +1,4 @@
-import { Protobuf, System, Crypto } from 'koinos-sdk-as';
+import { Protobuf, System, Crypto, system_call_target } from 'koinos-sdk-as';
 import * as bridge from './proto/bridge';
 import { Metadata } from './state/Metadata';
 import { Tokens } from './state/Tokens';
@@ -16,18 +16,18 @@ export class Bridge {
 
   initialize(args: bridge.initialize_arguments): bridge.initialize_result {
     const initialValidators = args.initial_validators;
-    System.require(initialValidators.length > 0, 'Validators required', 1);
+    System.require(initialValidators.length > 0, 'Validators required');
 
     const metadataSpace = new Metadata(this._contractId);
     const validators = new Validators(this._contractId);
 
     const metadata = metadataSpace.get();
-    System.require(!metadata.initialized, 'Contract already initialized', 1);
+    System.require(!metadata.initialized, 'Contract already initialized');
 
     for (let index = 0; index < initialValidators.length; index++) {
       const validator = initialValidators[index];
 
-      System.require(!validators.has(validator), 'Validator not unique', 1);
+      System.require(!validators.has(validator), 'Validator not unique');
       validators.put(validator, new bridge.validator_object());
       metadata.nb_validators += 1;
     }
@@ -68,16 +68,19 @@ export class Bridge {
   transfer_tokens(
     args: bridge.transfer_tokens_arguments
   ): bridge.transfer_tokens_result {
+    // cannot call when contract is paused
+    new Pausable(this._contractId).whenNotPaused();
+
+    // contracts cannot call this function (reentrancy guard)
+    const callerData = System.getCaller();
+    System.require(callerData.caller == null, 'cannot call from a contract');
+
     const token = args.token!;
     const amount = args.amount;
     const recipient = args.recipient!;
 
-    const reentrancyGuard = new ReentrancyGuard(this._contractId);
-    new Pausable(this._contractId).whenNotPaused();
 
     // YOUR CODE HERE
-
-    reentrancyGuard.reset();
 
     return new bridge.transfer_tokens_result();
   }
@@ -85,18 +88,20 @@ export class Bridge {
   complete_transfer(
     args: bridge.complete_transfer_arguments
   ): bridge.complete_transfer_result {
+    // cannot call when contract is paused
+    new Pausable(this._contractId).whenNotPaused();
+
+    // contracts cannot call this function (reentrancy guard)
+    const callerData = System.getCaller();
+    System.require(callerData.caller == null, 'cannot call from a contract');
+
     // const transaction_id = args.transaction_id;
     // const token = args.token;
     // const recipient = args.recipient;
     // const value = args.value;
     // const signatures = args.signatures;
 
-    const reentrancyGuard = new ReentrancyGuard(this._contractId);
-    new Pausable(this._contractId).whenNotPaused();
-
     // YOUR CODE HERE
-
-    reentrancyGuard.reset();
 
     return new bridge.complete_transfer_result();
   }
@@ -110,7 +115,7 @@ export class Bridge {
     const metadataSpace = new Metadata(this._contractId);
     const validators = new Validators(this._contractId);
 
-    System.require(!validators.has(validator), 'Validator already exists', 1);
+    System.require(!validators.has(validator), 'Validator already exists');
 
     const metadata = metadataSpace.get();
     const objToHash = new bridge.add_remove_action_hash(validator, metadata.nonce, this._contractId);
@@ -140,7 +145,7 @@ export class Bridge {
     const metadataSpace = new Metadata(this._contractId);
     const validators = new Validators(this._contractId);
 
-    System.require(validators.has(validator), 'Validator does not exist', 1);
+    System.require(validators.has(validator), 'Validator does not exist');
 
     const metadata = metadataSpace.get();
     const objToHash = new bridge.add_remove_action_hash(validator, metadata.nonce, this._contractId);
@@ -167,7 +172,7 @@ export class Bridge {
     const token = args.token!;
 
     const tokens = new Tokens(this._contractId);
-    System.require(!tokens.has(token), 'Token already exists', 1);
+    System.require(!tokens.has(token), 'Token already exists');
 
     const metadataSpace = new Metadata(this._contractId);
     const metadata = metadataSpace.get();
@@ -195,7 +200,7 @@ export class Bridge {
     const token = args.token!;
 
     const tokens = new Tokens(this._contractId);
-    System.require(tokens.has(token), 'Token does not exist', 1);
+    System.require(tokens.has(token), 'Token does not exist');
 
     const metadataSpace = new Metadata(this._contractId);
     const metadata = metadataSpace.get();
@@ -222,7 +227,7 @@ export class Bridge {
     const token = args.token!;
 
     const wrappedTokens = new WrappedTokens(this._contractId);
-    System.require(!wrappedTokens.has(token), 'Token already exists', 1);
+    System.require(!wrappedTokens.has(token), 'Token already exists');
 
     const metadataSpace = new Metadata(this._contractId);
     const metadata = metadataSpace.get();
@@ -252,7 +257,7 @@ export class Bridge {
     const token = args.token!;
 
     const wrappedTokens = new WrappedTokens(this._contractId);
-    System.require(wrappedTokens.has(token), 'Token does not exist', 1);
+    System.require(wrappedTokens.has(token), 'Token does not exist');
 
     const metadataSpace = new Metadata(this._contractId);
     const metadata = metadataSpace.get();
@@ -275,8 +280,7 @@ export class Bridge {
   verifySignatures(hash: Uint8Array, signatures: Uint8Array[], nbValidators: u32): void {
     System.require(
       signatures.length as u32 >= (((nbValidators * 10) / 3) * 2) / 10 + 1,
-      'quorum not met',
-      1
+      'quorum not met'
     );
 
     const validators = new Validators(this._contractId);
@@ -287,7 +291,7 @@ export class Bridge {
       const signature = signatures[index];
       const pubKey = System.recoverPublicKey(signature, hash)!;
       const address = Crypto.addressFromPublicKey(pubKey);
-      System.require(!validatorAlreadySigned.has(address) && validators.has(address), 'invalid signatures', 1);
+      System.require(!validatorAlreadySigned.has(address) && validators.has(address), 'invalid signatures');
 
       validatorAlreadySigned.set(address, true);
     }

@@ -1,6 +1,6 @@
 import { object_space, System } from "koinos-sdk-as";
 
-const PAUSABLE_SPACE_ID = 1001;
+const PAUSABLE_SPACE_ID = 100002;
 const PAUSABLE_KEY = new Uint8Array(0);
 
 export class Pausable {
@@ -15,11 +15,11 @@ export class Pausable {
   }
 
   whenNotPaused(): void {
-    System.require(!this.paused(), 'Pausable: paused', 1);
+    System.require(!this.paused(), 'Pausable: paused');
   }
 
   whenPaused(): void {
-    System.require(this.paused(), 'Pausable: not paused', 1);
+    System.require(this.paused(), 'Pausable: not paused');
   }
 
   setPause(pause: bool): void {
