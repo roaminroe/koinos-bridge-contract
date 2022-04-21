@@ -7,6 +7,20 @@
             "entryPoint": 1192148610,
             "readOnly": false
         },
+        "get_validators": {
+            "input": "bridge.get_validators_arguments",
+            "output": "bridge.get_validators_result",
+            "description": "Get validators",
+            "entryPoint": 1342607250,
+            "readOnly": true
+        },
+        "get_metadata": {
+            "input": "bridge.get_metadata_arguments",
+            "output": "bridge.metadata_object",
+            "description": "Get validators",
+            "entryPoint": 4244088463,
+            "readOnly": true
+        },
         "set_pause": {
             "input": "bridge.set_pause_arguments",
             "output": "bridge.set_pause_result",
@@ -88,6 +102,40 @@
                         }
                     },
                     "initialize_result": {
+                        "fields": {}
+                    },
+                    "get_validators_arguments": {
+                        "fields": {
+                            "startValidator": {
+                                "type": "bytes",
+                                "id": 1,
+                                "options": {
+                                    "(koinos.btype)": "ADDRESS"
+                                }
+                            },
+                            "limit": {
+                                "type": "int32",
+                                "id": 2
+                            },
+                            "direction": {
+                                "type": "int32",
+                                "id": 3
+                            }
+                        }
+                    },
+                    "get_validators_result": {
+                        "fields": {
+                            "validators": {
+                                "rule": "repeated",
+                                "type": "bytes",
+                                "id": 1,
+                                "options": {
+                                    "(koinos.btype)": "ADDRESS"
+                                }
+                            }
+                        }
+                    },
+                    "get_metadata_arguments": {
                         "fields": {}
                     },
                     "set_pause_arguments": {

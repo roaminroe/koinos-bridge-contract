@@ -62,6 +62,125 @@ export namespace bridge {
     constructor() {}
   }
 
+  export class get_validators_arguments {
+    static encode(message: get_validators_arguments, writer: Writer): void {
+      const unique_name_startValidator = message.startValidator;
+      if (unique_name_startValidator !== null) {
+        writer.uint32(10);
+        writer.bytes(unique_name_startValidator);
+      }
+
+      writer.uint32(16);
+      writer.int32(message.limit);
+
+      writer.uint32(24);
+      writer.int32(message.direction);
+    }
+
+    static decode(reader: Reader, length: i32): get_validators_arguments {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new get_validators_arguments();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.startValidator = reader.bytes();
+            break;
+
+          case 2:
+            message.limit = reader.int32();
+            break;
+
+          case 3:
+            message.direction = reader.int32();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    startValidator: Uint8Array | null;
+    limit: i32;
+    direction: i32;
+
+    constructor(
+      startValidator: Uint8Array | null = null,
+      limit: i32 = 0,
+      direction: i32 = 0
+    ) {
+      this.startValidator = startValidator;
+      this.limit = limit;
+      this.direction = direction;
+    }
+  }
+
+  export class get_validators_result {
+    static encode(message: get_validators_result, writer: Writer): void {
+      const unique_name_validators = message.validators;
+      if (unique_name_validators.length !== 0) {
+        for (let i = 0; i < unique_name_validators.length; ++i) {
+          writer.uint32(10);
+          writer.bytes(unique_name_validators[i]);
+        }
+      }
+    }
+
+    static decode(reader: Reader, length: i32): get_validators_result {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new get_validators_result();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.validators.push(reader.bytes());
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    validators: Array<Uint8Array>;
+
+    constructor(validators: Array<Uint8Array> = []) {
+      this.validators = validators;
+    }
+  }
+
+  @unmanaged
+  export class get_metadata_arguments {
+    static encode(message: get_metadata_arguments, writer: Writer): void {}
+
+    static decode(reader: Reader, length: i32): get_metadata_arguments {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new get_metadata_arguments();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    constructor() {}
+  }
+
   export class set_pause_arguments {
     static encode(message: set_pause_arguments, writer: Writer): void {
       const unique_name_signatures = message.signatures;

@@ -1,4 +1,4 @@
-import { Protobuf, System, Crypto, Token } from 'koinos-sdk-as';
+import { Protobuf, System, Crypto, Token, Base58, Space } from 'koinos-sdk-as';
 import { bridge } from './proto/bridge';
 import { Metadata } from './state/Metadata';
 import { Tokens } from './state/Tokens';
@@ -36,6 +36,39 @@ export class Bridge {
     metadataSpace.put(metadata);
 
     return new bridge.initialize_result();
+  }
+
+  get_validators(
+    args: bridge.get_validators_arguments
+  ): bridge.get_validators_result {
+    const startValidator = args.startValidator!;
+    let limit = args.limit;
+    let direction = args.direction;
+
+    if (limit == 0) {
+      limit = 100;
+    }
+
+    const validators = new Validators(this._contractId);
+    const retArr: Uint8Array[] = [];
+
+    if (validators.has(startValidator)) {
+      retArr.push(startValidator);
+      const d = direction == 0 ? Space.Direction.Ascending : Space.Direction.Descending;
+      const result = validators.getMany(startValidator, limit, d);
+  
+      for (let index = 0; index < result.length; index++) {
+        retArr.push(result[index].key!);
+      }
+    }
+
+    return new bridge.get_validators_result(retArr);
+  }
+
+  get_metadata(args: bridge.get_metadata_arguments): bridge.metadata_object {
+    const metadata = new Metadata(this._contractId);
+
+    return metadata.get();
   }
 
   set_pause(args: bridge.set_pause_arguments): bridge.set_pause_result {

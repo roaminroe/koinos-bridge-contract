@@ -1,5 +1,4 @@
-import { Space, chain, System } from 'koinos-sdk-as';
-import { bridge } from '../proto/bridge';
+import { chain, System } from 'koinos-sdk-as';
 
 const TOKENS_SPACE_ID = 103;
 

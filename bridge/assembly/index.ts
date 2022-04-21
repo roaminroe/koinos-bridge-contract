@@ -20,6 +20,29 @@ export function main(): i32 {
       break;
     }
 
+    case 0x50068f92: {
+      const args = Protobuf.decode<ProtoNamespace.get_validators_arguments>(
+        rdbuf,
+        ProtoNamespace.get_validators_arguments.decode
+      );
+      const res = c.get_validators(args);
+      retbuf = Protobuf.encode(
+        res,
+        ProtoNamespace.get_validators_result.encode
+      );
+      break;
+    }
+
+    case 0xfcf7a68f: {
+      const args = Protobuf.decode<ProtoNamespace.get_metadata_arguments>(
+        rdbuf,
+        ProtoNamespace.get_metadata_arguments.decode
+      );
+      const res = c.get_metadata(args);
+      retbuf = Protobuf.encode(res, ProtoNamespace.metadata_object.encode);
+      break;
+    }
+
     case 0x39a2c4e4: {
       const args = Protobuf.decode<ProtoNamespace.set_pause_arguments>(
         rdbuf,

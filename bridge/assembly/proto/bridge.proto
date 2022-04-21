@@ -15,6 +15,24 @@ message initialize_arguments {
 message initialize_result {
 }
 
+// @description Get validators
+// @read-only true
+message get_validators_arguments {
+  bytes startValidator = 1 [(koinos.btype) = ADDRESS];
+  int32 limit = 2;
+  int32 direction = 3;
+}
+
+message get_validators_result {
+  repeated bytes validators = 1 [(koinos.btype) = ADDRESS];
+}
+
+// @description Get validators
+// @read-only true
+// @result metadata_object
+message get_metadata_arguments {
+}
+
 // @description Pause/Unpause bridge
 // @read-only false
 message set_pause_arguments {
