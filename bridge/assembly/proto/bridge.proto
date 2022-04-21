@@ -28,9 +28,10 @@ message set_pause_result {
 // @description Transfer tokens
 // @read-only false
 message transfer_tokens_arguments {
-  bytes token = 1 [(koinos.btype) = CONTRACT_ID];
-  uint64 amount = 2;
-  string recipient = 3;
+  bytes from = 1 [(koinos.btype) = ADDRESS];
+  bytes token = 2 [(koinos.btype) = CONTRACT_ID];
+  uint64 amount = 3;
+  string recipient = 4;
 }
 
 message transfer_tokens_result {
@@ -41,7 +42,7 @@ message transfer_tokens_result {
 message complete_transfer_arguments {
   bytes transaction_id = 1 [(koinos.btype) = TRANSACTION_ID];
   bytes token = 2 [(koinos.btype) = CONTRACT_ID];
-  bytes recipient = 3 [(koinos.btype) = ADDRESS];
+  bytes recipient = 3;
   uint64 value = 4;
   repeated bytes signatures = 6;
 }
@@ -110,6 +111,12 @@ message remove_supported_wrapped_token_result {
 }
 
 // Events
+message transfer_tokens_event {
+  bytes from = 1 [(koinos.btype) = ADDRESS];
+  bytes token = 2 [(koinos.btype) = CONTRACT_ID];
+  uint64 amount = 3;
+  string recipient = 4;
+}
 
 // Objects
 message add_remove_action_hash {
@@ -122,6 +129,14 @@ message set_pause_action_hash {
   bool pause = 1;
   uint64 nonce = 2;
   bytes contract_id = 3;
+}
+
+message complete_transfer_hash {
+  bytes transaction_id = 1;
+  bytes token = 2;
+  bytes recipient = 3;
+  uint64 amount = 4;
+  bytes contract_id = 5;
 }
 
 message metadata_object {

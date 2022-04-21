@@ -1,11 +1,11 @@
-import { Protobuf, System, Crypto, system_call_target } from 'koinos-sdk-as';
-import * as bridge from './proto/bridge';
+import { Protobuf, System, Crypto, Token } from 'koinos-sdk-as';
+import { bridge } from './proto/bridge';
 import { Metadata } from './state/Metadata';
 import { Tokens } from './state/Tokens';
+import { Transfers } from './state/Transfers';
 import { Validators } from './state/Validators';
 import { WrappedTokens } from './state/WrappedTokens';
 import { Pausable } from './util/Pausable';
-import { ReentrancyGuard } from './util/ReentrancyGuard';
 
 export class Bridge {
   _contractId: Uint8Array;
@@ -71,16 +71,55 @@ export class Bridge {
     // cannot call when contract is paused
     new Pausable(this._contractId).whenNotPaused();
 
-    // contracts cannot call this function (reentrancy guard)
+    // contracts cannot call this function (pseudo reentrancy guard)
     const callerData = System.getCaller();
     System.require(callerData.caller == null, 'cannot call from a contract');
 
+    const from = args.from!;
     const token = args.token!;
     const amount = args.amount;
     const recipient = args.recipient!;
 
+    const isSupportedToken = new Tokens(this._contractId).has(token);
+    const isSupportedWrappedToken = new WrappedTokens(this._contractId).has(token);
+    System.require(isSupportedToken || isSupportedWrappedToken, 'token is not supported');
 
-    // YOUR CODE HERE
+    const tokenContract = new Token(token);
+    const decimals = tokenContract.decimals();
+
+    // don't deposit dust that can not be bridged due to the decimal shift
+    let bridgedAmount = this.deNormalizeAmount(this.normalizeAmount(amount, decimals), decimals);
+
+    if (isSupportedWrappedToken) {
+      // transfer tokens to contract
+      System.require(tokenContract.transfer(from, this._contractId, bridgedAmount));
+
+      // and burn them...
+      System.require(tokenContract.burn(this._contractId, bridgedAmount));
+    } else {
+      // query own token balance before transfer
+      const balanceBefore = tokenContract.balanceOf(this._contractId);
+
+      // transfer tokens to contract
+      System.require(tokenContract.transfer(from, this._contractId, bridgedAmount));
+
+      // query own token balance after transfer
+      const balanceAfter = tokenContract.balanceOf(this._contractId);
+
+      // correct amount for potential transfer fees
+      bridgedAmount = balanceAfter - balanceBefore;
+    }
+
+    // normalize amount, we only want to handle 8 decimals maximum on Koinos
+    const normalizedAmount = this.normalizeAmount(bridgedAmount, decimals);
+
+    System.require(
+      normalizedAmount > 0,
+      'normalizedAmount amount must be greater than 0'
+    );
+
+    const event = new bridge.transfer_tokens_event(from, token, normalizedAmount, recipient);
+    System.event('bridge.transfer_tokens', Protobuf.encode(event, bridge.transfer_tokens_event.encode), [from]);
 
     return new bridge.transfer_tokens_result();
   }
@@ -91,17 +130,47 @@ export class Bridge {
     // cannot call when contract is paused
     new Pausable(this._contractId).whenNotPaused();
 
-    // contracts cannot call this function (reentrancy guard)
+    // contracts cannot call this function (pseudo reentrancy guard)
     const callerData = System.getCaller();
     System.require(callerData.caller == null, 'cannot call from a contract');
 
-    // const transaction_id = args.transaction_id;
-    // const token = args.token;
-    // const recipient = args.recipient;
-    // const value = args.value;
-    // const signatures = args.signatures;
+    const transaction_id = args.transaction_id!;
+    const token = args.token!;
+    const recipient = args.recipient!;
+    const value = args.value;
+    const signatures = args.signatures;
 
-    // YOUR CODE HERE
+    const isSupportedToken = new Tokens(this._contractId).has(token);
+    const isSupportedWrappedToken = new WrappedTokens(this._contractId).has(token);
+    System.require(isSupportedToken || isSupportedWrappedToken, 'token is not supported');
+
+    const metadataSpace = new Metadata(this._contractId);
+
+    const objToHash = new bridge.complete_transfer_hash(transaction_id, token, recipient, value, this._contractId);
+    const hash = System.hash(Crypto.multicodec.sha2_256, Protobuf.encode(objToHash, bridge.complete_transfer_hash.encode))!;
+
+    const transfers = new Transfers(this._contractId);
+
+    System.require(!transfers.has(hash), '!transfer already completed');
+    transfers.put(hash);
+
+    const metadata = metadataSpace.get();
+    this.verifySignatures(hash, signatures, metadata.nb_validators);
+
+    const tokenContract = new Token(token);
+    // query decimals
+    const decimals = tokenContract.decimals();
+
+    // adjust decimals
+    const transferAmount = this.deNormalizeAmount(value, decimals);
+
+    // transfer bridged amount to recipient
+    if (isSupportedWrappedToken) {
+      // mint wrapped asset
+      tokenContract.mint(recipient, value);
+    } else {
+      tokenContract.transfer(this._contractId, recipient, transferAmount);
+    }
 
     return new bridge.complete_transfer_result();
   }
@@ -295,5 +364,21 @@ export class Bridge {
 
       validatorAlreadySigned.set(address, true);
     }
+  }
+
+  normalizeAmount(amount: u64, decimals: u32): u64 {
+    if (decimals > 8) {
+      amount /= 10 ** (decimals - 8);
+    }
+
+    return amount;
+  }
+
+  deNormalizeAmount(amount: u64, decimals: u32): u64 {
+    if (decimals > 8) {
+      amount *= 10 ** (decimals - 8);
+    }
+
+    return amount;
   }
 }

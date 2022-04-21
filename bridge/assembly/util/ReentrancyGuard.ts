@@ -1,13 +1,13 @@
-import { object_space, privilege, System } from "koinos-sdk-as";
+import { chain, System } from "koinos-sdk-as";
 
 const REENNTRACY_GUARD_SPACE_ID = 100001;
 const REENNTRACY_GUARD_KEY = new Uint8Array(0);
 
 export class ReentrancyGuard {
-  private _space: object_space;
+  private _space: chain.object_space;
 
   constructor(contractId: Uint8Array) {
-    this._space = new object_space(false, contractId, REENNTRACY_GUARD_SPACE_ID);
+    this._space = new chain.object_space(false, contractId, REENNTRACY_GUARD_SPACE_ID);
 
     const callerData = System.getCaller();
 

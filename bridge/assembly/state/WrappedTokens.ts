@@ -1,5 +1,5 @@
 import { Space } from 'koinos-sdk-as';
-import * as bridge from '../proto/bridge';
+import { bridge } from '../proto/bridge';
 
 const WRAPPED_TOKENS_SPACE_ID = 102;
 

@@ -1,13 +1,13 @@
-import { object_space, System } from "koinos-sdk-as";
+import { chain, System } from "koinos-sdk-as";
 
 const PAUSABLE_SPACE_ID = 100002;
 const PAUSABLE_KEY = new Uint8Array(0);
 
 export class Pausable {
-  private _space: object_space;
+  private _space: chain.object_space;
 
   constructor(contractId: Uint8Array) {
-    this._space = new object_space(false, contractId, PAUSABLE_SPACE_ID);
+    this._space = new chain.object_space(false, contractId, PAUSABLE_SPACE_ID);
   }
 
   paused(): bool {

@@ -108,20 +108,27 @@
                     },
                     "transfer_tokens_arguments": {
                         "fields": {
-                            "token": {
+                            "from": {
                                 "type": "bytes",
                                 "id": 1,
+                                "options": {
+                                    "(koinos.btype)": "ADDRESS"
+                                }
+                            },
+                            "token": {
+                                "type": "bytes",
+                                "id": 2,
                                 "options": {
                                     "(koinos.btype)": "CONTRACT_ID"
                                 }
                             },
                             "amount": {
                                 "type": "uint64",
-                                "id": 2
+                                "id": 3
                             },
                             "recipient": {
                                 "type": "string",
-                                "id": 3
+                                "id": 4
                             }
                         }
                     },
@@ -146,10 +153,7 @@
                             },
                             "recipient": {
                                 "type": "bytes",
-                                "id": 3,
-                                "options": {
-                                    "(koinos.btype)": "ADDRESS"
-                                }
+                                "id": 3
                             },
                             "value": {
                                 "type": "uint64",
@@ -279,6 +283,32 @@
                     "remove_supported_wrapped_token_result": {
                         "fields": {}
                     },
+                    "transfer_tokens_event": {
+                        "fields": {
+                            "from": {
+                                "type": "bytes",
+                                "id": 1,
+                                "options": {
+                                    "(koinos.btype)": "ADDRESS"
+                                }
+                            },
+                            "token": {
+                                "type": "bytes",
+                                "id": 2,
+                                "options": {
+                                    "(koinos.btype)": "CONTRACT_ID"
+                                }
+                            },
+                            "amount": {
+                                "type": "uint64",
+                                "id": 3
+                            },
+                            "recipient": {
+                                "type": "string",
+                                "id": 4
+                            }
+                        }
+                    },
                     "add_remove_action_hash": {
                         "fields": {
                             "address": {
@@ -308,6 +338,30 @@
                             "contractId": {
                                 "type": "bytes",
                                 "id": 3
+                            }
+                        }
+                    },
+                    "complete_transfer_hash": {
+                        "fields": {
+                            "transactionId": {
+                                "type": "bytes",
+                                "id": 1
+                            },
+                            "token": {
+                                "type": "bytes",
+                                "id": 2
+                            },
+                            "recipient": {
+                                "type": "bytes",
+                                "id": 3
+                            },
+                            "amount": {
+                                "type": "uint64",
+                                "id": 4
+                            },
+                            "contractId": {
+                                "type": "bytes",
+                                "id": 5
                             }
                         }
                     },

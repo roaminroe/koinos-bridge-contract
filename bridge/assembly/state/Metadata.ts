@@ -1,5 +1,5 @@
 import { Space } from 'koinos-sdk-as';
-import * as bridge from '../proto/bridge';
+import { bridge } from '../proto/bridge';
 
 const METADATA_SPACE_ID = 0;
 const METADATA_KEY = new Uint8Array(0);
