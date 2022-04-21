@@ -92,16 +92,16 @@ export class Bridge {
 
     if (isSupportedWrappedToken) {
       // transfer tokens to contract
-      System.require(tokenContract.transfer(from, this._contractId, bridgedAmount));
+      System.require(tokenContract.transfer(from, this._contractId, bridgedAmount), 'could not transfer wrapped tokens to the bridge');
 
       // and burn them...
-      System.require(tokenContract.burn(this._contractId, bridgedAmount));
+      System.require(tokenContract.burn(this._contractId, bridgedAmount), 'could not burn wrapped tokens');
     } else {
       // query own token balance before transfer
       const balanceBefore = tokenContract.balanceOf(this._contractId);
 
       // transfer tokens to contract
-      System.require(tokenContract.transfer(from, this._contractId, bridgedAmount));
+      System.require(tokenContract.transfer(from, this._contractId, bridgedAmount), 'could not transfer tokens to the bridge');
 
       // query own token balance after transfer
       const balanceAfter = tokenContract.balanceOf(this._contractId);
@@ -167,9 +167,9 @@ export class Bridge {
     // transfer bridged amount to recipient
     if (isSupportedWrappedToken) {
       // mint wrapped asset
-      tokenContract.mint(recipient, value);
+      System.require(tokenContract.mint(recipient, value), 'mint of new wrapped tokens failed');
     } else {
-      tokenContract.transfer(this._contractId, recipient, transferAmount);
+      System.require(tokenContract.transfer(this._contractId, recipient, transferAmount), 'transfer of tokens failed');
     }
 
     return new bridge.complete_transfer_result();
