@@ -26,10 +26,29 @@ export function main(): i32 {
         ProtoNamespace.get_validators_arguments.decode
       );
       const res = c.get_validators(args);
-      retbuf = Protobuf.encode(
-        res,
-        ProtoNamespace.get_validators_result.encode
-      );
+      retbuf = Protobuf.encode(res, ProtoNamespace.repeated_addresses.encode);
+      break;
+    }
+
+    case 0xc8e36f04: {
+      const args =
+        Protobuf.decode<ProtoNamespace.get_supported_tokens_arguments>(
+          rdbuf,
+          ProtoNamespace.get_supported_tokens_arguments.decode
+        );
+      const res = c.get_supported_tokens(args);
+      retbuf = Protobuf.encode(res, ProtoNamespace.repeated_addresses.encode);
+      break;
+    }
+
+    case 0x2f540a24: {
+      const args =
+        Protobuf.decode<ProtoNamespace.get_supported_wrapped_tokens_arguments>(
+          rdbuf,
+          ProtoNamespace.get_supported_wrapped_tokens_arguments.decode
+        );
+      const res = c.get_supported_wrapped_tokens(args);
+      retbuf = Protobuf.encode(res, ProtoNamespace.repeated_addresses.encode);
       break;
     }
 

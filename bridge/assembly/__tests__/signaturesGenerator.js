@@ -3,10 +3,13 @@ const protobuf = require('protobufjs');
 const { sha256 } = require('@noble/hashes/sha256')
 const path = require('path');
 
+const CONTRACT_ID = utils.decodeBase58('1DQzuCcTKacbs9GGScRTU1Hc8BsyARTPqe');
+
 (async () => {
   const bridgeProto = new protobuf.Root();
   bridgeProto.loadSync(path.join(__dirname, '/../proto/bridge.proto'), { keepCase: true });
   const completeTransferHashProto = bridgeProto.lookupType('bridge.complete_transfer_hash');
+  const addRemoveActionHashProto = bridgeProto.lookupType('bridge.add_remove_action_hash');
 
   const wif = "5KEX4TMHG66fT7cM9HMZLmdp4hVq4LC4X2Fkg6zeypM5UteWmtd";
 
@@ -18,7 +21,8 @@ const path = require('path');
     console.log('validator', index, validators[index].getAddress());
   }
 
-  const sign = async (hash) => {
+  const sign = async (buffer) => {
+    const hash = sha256(buffer);
     const signatures = [];
     for (let index = 0; index < validators.length; index++) {
       const validator = validators[index];
@@ -38,17 +42,26 @@ const path = require('path');
       bytes contract_id = 5;
     }
  */
-  const buffer = completeTransferHashProto.encode({
+  let buffer = completeTransferHashProto.encode({
     transaction_id: utils.toUint8Array('0x418bea66a16fc317ece4a3a4815beca64bafc93e99fe56031850593ca9d56f94'),
     token: utils.decodeBase58('19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPJ'),
     recipient: utils.decodeBase58('1GE2JqXw5LMQaU1sj82Dy8ZEe2BRXQS1cs'),
     amount: '123',
-    contract_id: utils.decodeBase58('1GE2JqXw5LMQaU1sj82Dy8ZEe2BRXQS1cs')
+    contract_id: CONTRACT_ID
   }).finish();
 
-  const hash = sha256(buffer);
-  const sigs = await sign(hash);
+  let sigs = await sign(buffer);
 
-  console.log(sigs)
+  console.log(sigs);
+
+  buffer = addRemoveActionHashProto.encode({
+    address: utils.decodeBase58('19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPJ'),
+    nonce: '1',
+    contract_id: CONTRACT_ID
+  }).finish();
+  
+  sigs = await sign(buffer);
+
+  console.log('#1', sigs);
 
 })();

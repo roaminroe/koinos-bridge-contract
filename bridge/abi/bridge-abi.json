@@ -9,15 +9,29 @@
         },
         "get_validators": {
             "input": "bridge.get_validators_arguments",
-            "output": "bridge.get_validators_result",
+            "output": "bridge.repeated_addresses",
             "description": "Get validators",
             "entryPoint": 1342607250,
+            "readOnly": true
+        },
+        "get_supported_tokens": {
+            "input": "bridge.get_supported_tokens_arguments",
+            "output": "bridge.repeated_addresses",
+            "description": "Get supported tokens",
+            "entryPoint": 3370348292,
+            "readOnly": true
+        },
+        "get_supported_wrapped_tokens": {
+            "input": "bridge.get_supported_wrapped_tokens_arguments",
+            "output": "bridge.repeated_addresses",
+            "description": "Get supported wrapped tokens",
+            "entryPoint": 794036772,
             "readOnly": true
         },
         "get_metadata": {
             "input": "bridge.get_metadata_arguments",
             "output": "bridge.metadata_object",
-            "description": "Get validators",
+            "description": "Get metadata",
             "entryPoint": 4244088463,
             "readOnly": true
         },
@@ -106,7 +120,7 @@
                     },
                     "get_validators_arguments": {
                         "fields": {
-                            "startValidator": {
+                            "start": {
                                 "type": "bytes",
                                 "id": 1,
                                 "options": {
@@ -123,9 +137,47 @@
                             }
                         }
                     },
-                    "get_validators_result": {
+                    "get_supported_tokens_arguments": {
                         "fields": {
-                            "validators": {
+                            "start": {
+                                "type": "bytes",
+                                "id": 1,
+                                "options": {
+                                    "(koinos.btype)": "ADDRESS"
+                                }
+                            },
+                            "limit": {
+                                "type": "int32",
+                                "id": 2
+                            },
+                            "direction": {
+                                "type": "uint32",
+                                "id": 3
+                            }
+                        }
+                    },
+                    "get_supported_wrapped_tokens_arguments": {
+                        "fields": {
+                            "start": {
+                                "type": "bytes",
+                                "id": 1,
+                                "options": {
+                                    "(koinos.btype)": "ADDRESS"
+                                }
+                            },
+                            "limit": {
+                                "type": "int32",
+                                "id": 2
+                            },
+                            "direction": {
+                                "type": "uint32",
+                                "id": 3
+                            }
+                        }
+                    },
+                    "repeated_addresses": {
+                        "fields": {
+                            "addresses": {
                                 "rule": "repeated",
                                 "type": "bytes",
                                 "id": 1,

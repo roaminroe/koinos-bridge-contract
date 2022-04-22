@@ -1505,17 +1505,17 @@ koinos-abi-proto-gen@^0.1.11:
     google-protobuf "^3.19.4"
     protobufjs "^6.11.2"
 
-koinos-as-gen@^0.4.8:
+koinos-as-gen@0.4.8, koinos-as-gen@^0.4.8:
   version "0.4.8"
   resolved "https://registry.yarnpkg.com/koinos-as-gen/-/koinos-as-gen-0.4.8.tgz#b20893f1c6870ced7e48fa65a81d3e0b2676a670"
   integrity sha512-Bbpp9Wr4SgFxP4QfoXAW3BRY3hBOH/+jgJAXlFlleJ9RYW9b96x0eM+gs9X/hsu1jBqAcVdXVK52y3VeNO0qmQ==
   dependencies:
     google-protobuf "^3.19.4"
 
-koinos-mock-vm@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/koinos-mock-vm/-/koinos-mock-vm-1.0.3.tgz#60af97d473f1b47d8582dba92e5f59d399c554ff"
-  integrity sha512-mA3ZZx0euNn3Nqu3G0/X4U/LLk56ekI9aWlvCtM6KJRr5LMdlOm97FitRwoJ7mc0G1rpKLJbTy/Ba8SM7bRlvA==
+koinos-mock-vm@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/koinos-mock-vm/-/koinos-mock-vm-1.1.1.tgz#187da036beb7c12307ee3579ee616a3f7e8e2177"
+  integrity sha512-jbGUflqb4zA1Owm2NXlX8pIVtfijbGwHKZh/dyMmFRK6guCjdgn+xnFv0UotRJDitdRnCufF+zALrqbi9lwB0Q==
   dependencies:
     "@noble/hashes" "^1.0.0"
     "@noble/secp256k1" "^1.5.5"
@@ -1537,12 +1537,13 @@ koinos-proto-as@koinos/koinos-proto-as:
   dependencies:
     as-proto "^0.2.2"
 
-koinos-sdk-as@koinos/koinos-sdk-as:
-  version "0.4.6"
-  resolved "https://codeload.github.com/koinos/koinos-sdk-as/tar.gz/f850072de14788ba53b99db060f73a8e504770c0"
+koinos-sdk-as@koinos/koinos-sdk-as#41f56d756fb78392d2af08f498ab73b02ad6a6cd:
+  version "0.4.8"
+  resolved "https://codeload.github.com/koinos/koinos-sdk-as/tar.gz/41f56d756fb78392d2af08f498ab73b02ad6a6cd"
   dependencies:
     as-bignum "^0.2.18"
     as-proto "^0.2.2"
+    koinos-as-gen "0.4.8"
     koinos-proto-as "0.4.0"
 
 levn@^0.4.1:

@@ -17,17 +17,36 @@ message initialize_result {
 
 // @description Get validators
 // @read-only true
+// @result repeated_addresses
 message get_validators_arguments {
-  bytes startValidator = 1 [(koinos.btype) = ADDRESS];
+  bytes start = 1 [(koinos.btype) = ADDRESS];
   int32 limit = 2;
   int32 direction = 3;
 }
 
-message get_validators_result {
-  repeated bytes validators = 1 [(koinos.btype) = ADDRESS];
+// @description Get supported tokens
+// @read-only true
+// @result repeated_addresses
+message get_supported_tokens_arguments {
+  bytes start = 1 [(koinos.btype) = ADDRESS];
+  int32 limit = 2;
+  uint32 direction = 3;
 }
 
-// @description Get validators
+// @description Get supported wrapped tokens
+// @read-only true
+// @result repeated_addresses
+message get_supported_wrapped_tokens_arguments {
+  bytes start = 1 [(koinos.btype) = ADDRESS];
+  int32 limit = 2;
+  uint32 direction = 3;
+}
+
+message repeated_addresses {
+  repeated bytes addresses = 1 [(koinos.btype) = ADDRESS];
+}
+
+// @description Get metadata
 // @read-only true
 // @result metadata_object
 message get_metadata_arguments {

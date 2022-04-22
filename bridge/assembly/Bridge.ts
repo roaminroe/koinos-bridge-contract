@@ -40,8 +40,8 @@ export class Bridge {
 
   get_validators(
     args: bridge.get_validators_arguments
-  ): bridge.get_validators_result {
-    const startValidator = args.startValidator!;
+  ): bridge.repeated_addresses {
+    const start = args.start!;
     let limit = args.limit;
     let direction = args.direction;
 
@@ -52,17 +52,71 @@ export class Bridge {
     const validators = new Validators(this._contractId);
     const retArr: Uint8Array[] = [];
 
-    if (validators.has(startValidator)) {
-      retArr.push(startValidator);
+    if (validators.has(start)) {
+      retArr.push(start);
       const d = direction == 0 ? Space.Direction.Ascending : Space.Direction.Descending;
-      const result = validators.getMany(startValidator, limit, d);
+      const result = validators.getMany(start, limit, d);
   
       for (let index = 0; index < result.length; index++) {
         retArr.push(result[index].key!);
       }
     }
 
-    return new bridge.get_validators_result(retArr);
+    return new bridge.repeated_addresses(retArr);
+  }
+
+  get_supported_tokens(
+    args: bridge.get_supported_tokens_arguments
+  ): bridge.repeated_addresses {
+    const start = args.start!;
+    let limit = args.limit;
+    let direction = args.direction;
+
+    if (limit == 0) {
+      limit = 100;
+    }
+
+    const tokens = new Tokens(this._contractId);
+    const retArr: Uint8Array[] = [];
+
+    if (tokens.has(start)) {
+      retArr.push(start);
+      const d = direction == 0 ? Space.Direction.Ascending : Space.Direction.Descending;
+      const result = tokens.getMany(start, limit, d);
+  
+      for (let index = 0; index < result.length; index++) {
+        retArr.push(result[index].key!);
+      }
+    }
+
+    return new bridge.repeated_addresses(retArr);
+  }
+
+  get_supported_wrapped_tokens(
+    args: bridge.get_supported_wrapped_tokens_arguments
+  ): bridge.repeated_addresses {
+    const start = args.start!;
+    let limit = args.limit;
+    let direction = args.direction;
+
+    if (limit == 0) {
+      limit = 100;
+    }
+
+    const tokens = new WrappedTokens(this._contractId);
+    const retArr: Uint8Array[] = [];
+
+    if (tokens.has(start)) {
+      retArr.push(start);
+      const d = direction == 0 ? Space.Direction.Ascending : Space.Direction.Descending;
+      const result = tokens.getMany(start, limit, d);
+  
+      for (let index = 0; index < result.length; index++) {
+        retArr.push(result[index].key!);
+      }
+    }
+
+    return new bridge.repeated_addresses(retArr);
   }
 
   get_metadata(args: bridge.get_metadata_arguments): bridge.metadata_object {
@@ -387,15 +441,18 @@ export class Bridge {
 
     const validators = new Validators(this._contractId);
 
-    const validatorAlreadySigned = new Map<Uint8Array, boolean>();
+    const validatorAlreadySigned = new Map<string, boolean>();
 
     for (let index = 0; index < signatures.length; index++) {
       const signature = signatures[index];
       const pubKey = System.recoverPublicKey(signature, hash)!;
       const address = Crypto.addressFromPublicKey(pubKey);
-      System.require(!validatorAlreadySigned.has(address) && validators.has(address), 'invalid signatures');
+      const b58Addr = Base58.encode(address);
+ 
+      System.require(validators.has(address), `${b58Addr} is not a validator`);
+      System.require(!validatorAlreadySigned.has(b58Addr), `validator ${b58Addr} already signed`);
 
-      validatorAlreadySigned.set(address, true);
+      validatorAlreadySigned.set(b58Addr, true);
     }
   }
 

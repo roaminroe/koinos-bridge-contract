@@ -64,10 +64,10 @@ export namespace bridge {
 
   export class get_validators_arguments {
     static encode(message: get_validators_arguments, writer: Writer): void {
-      const unique_name_startValidator = message.startValidator;
-      if (unique_name_startValidator !== null) {
+      const unique_name_start = message.start;
+      if (unique_name_start !== null) {
         writer.uint32(10);
-        writer.bytes(unique_name_startValidator);
+        writer.bytes(unique_name_start);
       }
 
       writer.uint32(16);
@@ -85,7 +85,7 @@ export namespace bridge {
         const tag = reader.uint32();
         switch (tag >>> 3) {
           case 1:
-            message.startValidator = reader.bytes();
+            message.start = reader.bytes();
             break;
 
           case 2:
@@ -105,41 +105,56 @@ export namespace bridge {
       return message;
     }
 
-    startValidator: Uint8Array | null;
+    start: Uint8Array | null;
     limit: i32;
     direction: i32;
 
     constructor(
-      startValidator: Uint8Array | null = null,
+      start: Uint8Array | null = null,
       limit: i32 = 0,
       direction: i32 = 0
     ) {
-      this.startValidator = startValidator;
+      this.start = start;
       this.limit = limit;
       this.direction = direction;
     }
   }
 
-  export class get_validators_result {
-    static encode(message: get_validators_result, writer: Writer): void {
-      const unique_name_validators = message.validators;
-      if (unique_name_validators.length !== 0) {
-        for (let i = 0; i < unique_name_validators.length; ++i) {
-          writer.uint32(10);
-          writer.bytes(unique_name_validators[i]);
-        }
+  export class get_supported_tokens_arguments {
+    static encode(
+      message: get_supported_tokens_arguments,
+      writer: Writer
+    ): void {
+      const unique_name_start = message.start;
+      if (unique_name_start !== null) {
+        writer.uint32(10);
+        writer.bytes(unique_name_start);
       }
+
+      writer.uint32(16);
+      writer.int32(message.limit);
+
+      writer.uint32(24);
+      writer.uint32(message.direction);
     }
 
-    static decode(reader: Reader, length: i32): get_validators_result {
+    static decode(reader: Reader, length: i32): get_supported_tokens_arguments {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new get_validators_result();
+      const message = new get_supported_tokens_arguments();
 
       while (reader.ptr < end) {
         const tag = reader.uint32();
         switch (tag >>> 3) {
           case 1:
-            message.validators.push(reader.bytes());
+            message.start = reader.bytes();
+            break;
+
+          case 2:
+            message.limit = reader.int32();
+            break;
+
+          case 3:
+            message.direction = reader.uint32();
             break;
 
           default:
@@ -151,10 +166,120 @@ export namespace bridge {
       return message;
     }
 
-    validators: Array<Uint8Array>;
+    start: Uint8Array | null;
+    limit: i32;
+    direction: u32;
 
-    constructor(validators: Array<Uint8Array> = []) {
-      this.validators = validators;
+    constructor(
+      start: Uint8Array | null = null,
+      limit: i32 = 0,
+      direction: u32 = 0
+    ) {
+      this.start = start;
+      this.limit = limit;
+      this.direction = direction;
+    }
+  }
+
+  export class get_supported_wrapped_tokens_arguments {
+    static encode(
+      message: get_supported_wrapped_tokens_arguments,
+      writer: Writer
+    ): void {
+      const unique_name_start = message.start;
+      if (unique_name_start !== null) {
+        writer.uint32(10);
+        writer.bytes(unique_name_start);
+      }
+
+      writer.uint32(16);
+      writer.int32(message.limit);
+
+      writer.uint32(24);
+      writer.uint32(message.direction);
+    }
+
+    static decode(
+      reader: Reader,
+      length: i32
+    ): get_supported_wrapped_tokens_arguments {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new get_supported_wrapped_tokens_arguments();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.start = reader.bytes();
+            break;
+
+          case 2:
+            message.limit = reader.int32();
+            break;
+
+          case 3:
+            message.direction = reader.uint32();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    start: Uint8Array | null;
+    limit: i32;
+    direction: u32;
+
+    constructor(
+      start: Uint8Array | null = null,
+      limit: i32 = 0,
+      direction: u32 = 0
+    ) {
+      this.start = start;
+      this.limit = limit;
+      this.direction = direction;
+    }
+  }
+
+  export class repeated_addresses {
+    static encode(message: repeated_addresses, writer: Writer): void {
+      const unique_name_addresses = message.addresses;
+      if (unique_name_addresses.length !== 0) {
+        for (let i = 0; i < unique_name_addresses.length; ++i) {
+          writer.uint32(10);
+          writer.bytes(unique_name_addresses[i]);
+        }
+      }
+    }
+
+    static decode(reader: Reader, length: i32): repeated_addresses {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new repeated_addresses();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.addresses.push(reader.bytes());
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    addresses: Array<Uint8Array>;
+
+    constructor(addresses: Array<Uint8Array> = []) {
+      this.addresses = addresses;
     }
   }
 
