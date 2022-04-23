@@ -50,19 +50,15 @@ export class Bridge {
     }
 
     const validators = new Validators(this._contractId);
-    const retArr: Uint8Array[] = [];
+    let res: Uint8Array[] = [];
 
     if (validators.has(start)) {
-      retArr.push(start);
       const d = direction == 0 ? Space.Direction.Ascending : Space.Direction.Descending;
-      const result = validators.getMany(start, limit, d);
-  
-      for (let index = 0; index < result.length; index++) {
-        retArr.push(result[index].key!);
-      }
+      res = validators.getManyKeys(start, limit, d);
+      res.unshift(start);
     }
 
-    return new bridge.repeated_addresses(retArr);
+    return new bridge.repeated_addresses(res);
   }
 
   get_supported_tokens(
@@ -77,19 +73,15 @@ export class Bridge {
     }
 
     const tokens = new Tokens(this._contractId);
-    const retArr: Uint8Array[] = [];
+    let res: Uint8Array[] = [];
 
     if (tokens.has(start)) {
-      retArr.push(start);
       const d = direction == 0 ? Space.Direction.Ascending : Space.Direction.Descending;
-      const result = tokens.getMany(start, limit, d);
-  
-      for (let index = 0; index < result.length; index++) {
-        retArr.push(result[index].key!);
-      }
+      res = tokens.getManyKeys(start, limit, d);
+      res.unshift(start);
     }
 
-    return new bridge.repeated_addresses(retArr);
+    return new bridge.repeated_addresses(res);
   }
 
   get_supported_wrapped_tokens(
@@ -104,19 +96,15 @@ export class Bridge {
     }
 
     const tokens = new WrappedTokens(this._contractId);
-    const retArr: Uint8Array[] = [];
+    let res: Uint8Array[] = [];
 
     if (tokens.has(start)) {
-      retArr.push(start);
       const d = direction == 0 ? Space.Direction.Ascending : Space.Direction.Descending;
-      const result = tokens.getMany(start, limit, d);
-  
-      for (let index = 0; index < result.length; index++) {
-        retArr.push(result[index].key!);
-      }
+      res = tokens.getManyKeys(start, limit, d);
+      res.unshift(start);
     }
 
-    return new bridge.repeated_addresses(retArr);
+    return new bridge.repeated_addresses(res);
   }
 
   get_metadata(args: bridge.get_metadata_arguments): bridge.metadata_object {
