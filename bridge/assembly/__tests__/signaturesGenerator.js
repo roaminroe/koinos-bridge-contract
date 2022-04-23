@@ -26,7 +26,8 @@ const CONTRACT_ID = utils.decodeBase58('1DQzuCcTKacbs9GGScRTU1Hc8BsyARTPqe');
     const signatures = [];
     for (let index = 0; index < validators.length; index++) {
       const validator = validators[index];
-      signatures.push(utils.toHexString(await validator.signHash(hash)));
+      // signatures.push(utils.toHexString(await validator.signHash(hash)));
+      signatures.push(utils.encodeBase64(await validator.signHash(hash)));
     }
 
     return signatures;

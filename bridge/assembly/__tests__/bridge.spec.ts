@@ -1,4 +1,4 @@
-import { MockVM, Base58, Arrays, StringBytes, System } from "koinos-sdk-as";
+import { MockVM, Base58, Arrays, StringBytes, System, Base64 } from "koinos-sdk-as";
 import { Bridge } from "../Bridge";
 import { bridge } from "../proto/bridge";
 
@@ -26,7 +26,7 @@ const convertSigsToBytes = (signatures: string[]): Uint8Array[] => {
   const ret: Uint8Array[] = [];
 
   for (let index = 0; index < signatures.length; index++) {
-    ret.push(Arrays.fromHexString(signatures[index]));
+    ret.push(Base64.decode(signatures[index]));
   }
 
   return ret;
@@ -70,8 +70,8 @@ describe('bridge', () => {
       b.initialize(initArgs);
     }).toThrow();
 
-    let logs = MockVM.getLogs();
-    expect(logs[0]).toStrictEqual('Validators required');
+    expect(MockVM.getLogs()).toStrictEqual(['Validators required']);
+    MockVM.clearLogs();
 
     // not unique validators
     expect(() => {
@@ -89,8 +89,8 @@ describe('bridge', () => {
       b.initialize(initArgs);
     }).toThrow();
 
-    logs = MockVM.getLogs();
-    expect(logs[1]).toStrictEqual('Validator not unique');
+    expect(MockVM.getLogs()).toStrictEqual(['Validator not unique']);
+    MockVM.clearLogs();
 
     // already initialized
     expect(() => {
@@ -102,8 +102,8 @@ describe('bridge', () => {
       b.initialize(initArgs);
     }).toThrow();
 
-    logs = MockVM.getLogs();
-    expect(logs[2]).toStrictEqual('Contract already initialized');
+    expect(MockVM.getLogs()).toStrictEqual(['Contract already initialized']);
+    MockVM.clearLogs();
   });
 
   it('should add support for token #1', () => {
@@ -113,14 +113,14 @@ describe('bridge', () => {
     b.initialize(initArgs);
 
     const signatures = convertSigsToBytes([
-      '1fadb2e43c121b7583e0901548c5d223bf4e7dbdc6a48af6d6dff29d2b4d28ee2c6e6a683a9d9ea41b1ff48aaacc48789940e5a494aeaa1744805f5fcf5b70a721',
-      '20e6a6b014989e7ccd41e7f1501b9749328474e8891d86c5492c01010eb4e573e9150f00760cd5ac73ce2d270e5b66b696c1854fa1f8f05313de38779a413f7d13',
-      '20f6727030b3def75ba289beccc94dd31256c936bd076aeb3f9c30e4e3d15b3f2757cac71ca42e2afc1e71ece0f51d25ab92a2eba6f3df86d612d8eafbc90efe9f',
-      '20fdfe188d0b555b6fc814e51aafe54a1342d91b4ec5f276986b48b08ae718506a731ef544fdafef85a21a2fe79aa7f574f67fca0cf70e3af0ea071edf0c1b25b0',
-      '20f8b651354acbb5ddccfcdc3ba8881d98c22dcf8170ca27ef2334a83dc4bf852a73da691843c52145192679f89f765252dbcced5101cd32f39d298a08a2da1dcd',
-      '20400daa358bd18b243657e37787fc5a58086de956aaf537394f320521c64822251452deefe71d954f58164684f3e1301e0645e9173425dedccd5e822ea884ef9e',
-      '205a45e8d66a7a68309586fe638b4056ba9493b6fc5706a36b9ac036fd2c8cde1a65fa091b16563774cc7f36d63f421b0de70947a5432c3144e48e292217e699fc',
-      '1f060a75a2f03a88fb623fd7d04b7337d3a0f49b44ba284e786f82d6c52ffa407661c7f6abd45f5880630607e8e41b3e50c18095b14bebbccb6135bb5015f56205'
+      'H62y5DwSG3WD4JAVSMXSI79Ofb3GpIr21t/ynStNKO4sbmpoOp2epBsf9IqqzEh4mUDlpJSuqhdEgF9fz1twpyE=',
+      'IOamsBSYnnzNQefxUBuXSTKEdOiJHYbFSSwBAQ605XPpFQ8AdgzVrHPOLScOW2a2lsGFT6H48FMT3jh3mkE/fRM=',
+      'IPZycDCz3vdboom+zMlN0xJWyTa9B2rrP5ww5OPRWz8nV8rHHKQuKvwecezg9R0lq5Ki66bz34bWEtjq+8kO/p8=',
+      'IP3+GI0LVVtvyBTlGq/lShNC2RtOxfJ2mGtIsIrnGFBqcx71RP2v74WiGi/nmqf1dPZ/ygz3Djrw6gce3wwbJbA=',
+      'IPi2UTVKy7XdzPzcO6iIHZjCLc+BcMon7yM0qD3Ev4Uqc9ppGEPFIUUZJnn4n3ZSUtvM7VEBzTLznSmKCKLaHc0=',
+      'IEANqjWL0YskNlfjd4f8WlgIbelWqvU3OU8yBSHGSCIlFFLe7+cdlU9YFkaE8+EwHgZF6Rc0Jd7czV6CLqiE754=',
+      'IFpF6NZqemgwlYb+Y4tAVrqUk7b8Vwaja5rANv0sjN4aZfoJGxZWN3TMfzbWP0IbDecJR6VDLDFE5I4pIhfmmfw=',
+      'HwYKdaLwOoj7Yj/X0EtzN9Og9JtEuihOeG+C1sUv+kB2Ycf2q9RfWIBjBgfo5Bs+UMGAlbFL67zLYTW7UBX1YgU='
     ]);
 
     const tokenAddr = Base58.decode('19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPJ');
@@ -134,9 +134,9 @@ describe('bridge', () => {
     expect(res.addresses.length).toBe(1);
     expect(Arrays.equal(res.addresses[0], tokenAddr)).toBe(true);
 
-    const ev = MockVM.getEvents();
-    expect(ev[0].name).toStrictEqual('bridge.token.added');
-    expect(Arrays.equal(ev[0].impacted[0], tokenAddr)).toBe(true);
+    const ev = MockVM.getEvents()[0];
+    expect(ev.name).toStrictEqual('bridge.token.added');
+    expect(Arrays.equal(ev.impacted[0], tokenAddr)).toBe(true);
   });
 
   it('should not add support for token', () => {
@@ -150,14 +150,14 @@ describe('bridge', () => {
     expect(() => {
       const b = new Bridge();
       const signatures = convertSigsToBytes([
-        '1fadb2e43c121b7583e0901548c5d223bf4e7dbdc6a48af6d6dff29d2b4d28ee2c6e6a683a9d9ea41b1ff48aaacc48789940e5a494aeaa1744805f5fcf5b70a721',
-        '20e6a6b014989e7ccd41e7f1501b9749328474e8891d86c5492c01010eb4e573e9150f00760cd5ac73ce2d270e5b66b696c1854fa1f8f05313de38779a413f7d13',
-        '20f6727030b3def75ba289beccc94dd31256c936bd076aeb3f9c30e4e3d15b3f2757cac71ca42e2afc1e71ece0f51d25ab92a2eba6f3df86d612d8eafbc90efe9f',
-        '20fdfe188d0b555b6fc814e51aafe54a1342d91b4ec5f276986b48b08ae718506a731ef544fdafef85a21a2fe79aa7f574f67fca0cf70e3af0ea071edf0c1b25b0',
-        '20f8b651354acbb5ddccfcdc3ba8881d98c22dcf8170ca27ef2334a83dc4bf852a73da691843c52145192679f89f765252dbcced5101cd32f39d298a08a2da1dcd',
-        '20400daa358bd18b243657e37787fc5a58086de956aaf537394f320521c64822251452deefe71d954f58164684f3e1301e0645e9173425dedccd5e822ea884ef9e',
-        '205a45e8d66a7a68309586fe638b4056ba9493b6fc5706a36b9ac036fd2c8cde1a65fa091b16563774cc7f36d63f421b0de70947a5432c3144e48e292217e699fc',
-        '1f060a75a2f03a88fb623fd7d04b7337d3a0f49b44ba284e786f82d6c52ffa407661c7f6abd45f5880630607e8e41b3e50c18095b14bebbccb6135bb5015f56205'
+        'H62y5DwSG3WD4JAVSMXSI79Ofb3GpIr21t/ynStNKO4sbmpoOp2epBsf9IqqzEh4mUDlpJSuqhdEgF9fz1twpyE=',
+        'IOamsBSYnnzNQefxUBuXSTKEdOiJHYbFSSwBAQ605XPpFQ8AdgzVrHPOLScOW2a2lsGFT6H48FMT3jh3mkE/fRM=',
+        'IPZycDCz3vdboom+zMlN0xJWyTa9B2rrP5ww5OPRWz8nV8rHHKQuKvwecezg9R0lq5Ki66bz34bWEtjq+8kO/p8=',
+        'IP3+GI0LVVtvyBTlGq/lShNC2RtOxfJ2mGtIsIrnGFBqcx71RP2v74WiGi/nmqf1dPZ/ygz3Djrw6gce3wwbJbA=',
+        'IPi2UTVKy7XdzPzcO6iIHZjCLc+BcMon7yM0qD3Ev4Uqc9ppGEPFIUUZJnn4n3ZSUtvM7VEBzTLznSmKCKLaHc0=',
+        'IEANqjWL0YskNlfjd4f8WlgIbelWqvU3OU8yBSHGSCIlFFLe7+cdlU9YFkaE8+EwHgZF6Rc0Jd7czV6CLqiE754=',
+        'IFpF6NZqemgwlYb+Y4tAVrqUk7b8Vwaja5rANv0sjN4aZfoJGxZWN3TMfzbWP0IbDecJR6VDLDFE5I4pIhfmmfw=',
+        'HwYKdaLwOoj7Yj/X0EtzN9Og9JtEuihOeG+C1sUv+kB2Ycf2q9RfWIBjBgfo5Bs+UMGAlbFL67zLYTW7UBX1YgU='
       ]);
 
       const tokenAddr = Base58.decode('19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPK');
@@ -166,22 +166,21 @@ describe('bridge', () => {
       b.add_supported_token(addTokenArgs);
     }).toThrow();
 
-    let logs = MockVM.getLogs();
-    expect(logs[0]).toStrictEqual('16bZDH5igFMJG8BoNMkJVdKsY1yVDB5S5b is not a validator');
+    expect(MockVM.getLogs()).toStrictEqual(['16bZDH5igFMJG8BoNMkJVdKsY1yVDB5S5b is not a validator']);
     MockVM.clearLogs();
 
     expect(() => {
       const b = new Bridge();
 
       const signatures = convertSigsToBytes([
-        '1fadb2e43c121b7583e0901548c5d223bf4e7dbdc6a48af6d6dff29d2b4d28ee2c6e6a683a9d9ea41b1ff48aaacc48789940e5a494aeaa1744805f5fcf5b70a721',
-        '20e6a6b014989e7ccd41e7f1501b9749328474e8891d86c5492c01010eb4e573e9150f00760cd5ac73ce2d270e5b66b696c1854fa1f8f05313de38779a413f7d13',
-        '20f6727030b3def75ba289beccc94dd31256c936bd076aeb3f9c30e4e3d15b3f2757cac71ca42e2afc1e71ece0f51d25ab92a2eba6f3df86d612d8eafbc90efe9f',
-        '20fdfe188d0b555b6fc814e51aafe54a1342d91b4ec5f276986b48b08ae718506a731ef544fdafef85a21a2fe79aa7f574f67fca0cf70e3af0ea071edf0c1b25b0',
-        '20f8b651354acbb5ddccfcdc3ba8881d98c22dcf8170ca27ef2334a83dc4bf852a73da691843c52145192679f89f765252dbcced5101cd32f39d298a08a2da1dcd',
-        '20400daa358bd18b243657e37787fc5a58086de956aaf537394f320521c64822251452deefe71d954f58164684f3e1301e0645e9173425dedccd5e822ea884ef9e',
-        '205a45e8d66a7a68309586fe638b4056ba9493b6fc5706a36b9ac036fd2c8cde1a65fa091b16563774cc7f36d63f421b0de70947a5432c3144e48e292217e699fc',
-        '205a45e8d66a7a68309586fe638b4056ba9493b6fc5706a36b9ac036fd2c8cde1a65fa091b16563774cc7f36d63f421b0de70947a5432c3144e48e292217e699fc',
+        'H62y5DwSG3WD4JAVSMXSI79Ofb3GpIr21t/ynStNKO4sbmpoOp2epBsf9IqqzEh4mUDlpJSuqhdEgF9fz1twpyE=',
+        'IOamsBSYnnzNQefxUBuXSTKEdOiJHYbFSSwBAQ605XPpFQ8AdgzVrHPOLScOW2a2lsGFT6H48FMT3jh3mkE/fRM=',
+        'IPZycDCz3vdboom+zMlN0xJWyTa9B2rrP5ww5OPRWz8nV8rHHKQuKvwecezg9R0lq5Ki66bz34bWEtjq+8kO/p8=',
+        'IP3+GI0LVVtvyBTlGq/lShNC2RtOxfJ2mGtIsIrnGFBqcx71RP2v74WiGi/nmqf1dPZ/ygz3Djrw6gce3wwbJbA=',
+        'IPi2UTVKy7XdzPzcO6iIHZjCLc+BcMon7yM0qD3Ev4Uqc9ppGEPFIUUZJnn4n3ZSUtvM7VEBzTLznSmKCKLaHc0=',
+        'IEANqjWL0YskNlfjd4f8WlgIbelWqvU3OU8yBSHGSCIlFFLe7+cdlU9YFkaE8+EwHgZF6Rc0Jd7czV6CLqiE754=',
+        'IFpF6NZqemgwlYb+Y4tAVrqUk7b8Vwaja5rANv0sjN4aZfoJGxZWN3TMfzbWP0IbDecJR6VDLDFE5I4pIhfmmfw=',
+        'IFpF6NZqemgwlYb+Y4tAVrqUk7b8Vwaja5rANv0sjN4aZfoJGxZWN3TMfzbWP0IbDecJR6VDLDFE5I4pIhfmmfw=',
       ]);
 
       const tokenAddr = Base58.decode('19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPJ');
@@ -190,19 +189,18 @@ describe('bridge', () => {
       b.add_supported_token(addTokenArgs);
     }).toThrow();
 
-    logs = MockVM.getLogs();
-    expect(logs[0]).toStrictEqual('validator 1MwE1VWBWyRNDWcdgDGNChatXBU73Sc42p already signed');
+    expect(MockVM.getLogs()).toStrictEqual(['validator 1MwE1VWBWyRNDWcdgDGNChatXBU73Sc42p already signed']);
     MockVM.clearLogs();
 
     expect(() => {
       const b = new Bridge();
 
       const signatures = convertSigsToBytes([
-        '1fadb2e43c121b7583e0901548c5d223bf4e7dbdc6a48af6d6dff29d2b4d28ee2c6e6a683a9d9ea41b1ff48aaacc48789940e5a494aeaa1744805f5fcf5b70a721',
-        '20e6a6b014989e7ccd41e7f1501b9749328474e8891d86c5492c01010eb4e573e9150f00760cd5ac73ce2d270e5b66b696c1854fa1f8f05313de38779a413f7d13',
-        '20f6727030b3def75ba289beccc94dd31256c936bd076aeb3f9c30e4e3d15b3f2757cac71ca42e2afc1e71ece0f51d25ab92a2eba6f3df86d612d8eafbc90efe9f',
-        '20fdfe188d0b555b6fc814e51aafe54a1342d91b4ec5f276986b48b08ae718506a731ef544fdafef85a21a2fe79aa7f574f67fca0cf70e3af0ea071edf0c1b25b0',
-        '20f8b651354acbb5ddccfcdc3ba8881d98c22dcf8170ca27ef2334a83dc4bf852a73da691843c52145192679f89f765252dbcced5101cd32f39d298a08a2da1dcd',
+        'H62y5DwSG3WD4JAVSMXSI79Ofb3GpIr21t/ynStNKO4sbmpoOp2epBsf9IqqzEh4mUDlpJSuqhdEgF9fz1twpyE=',
+        'IOamsBSYnnzNQefxUBuXSTKEdOiJHYbFSSwBAQ605XPpFQ8AdgzVrHPOLScOW2a2lsGFT6H48FMT3jh3mkE/fRM=',
+        'IPZycDCz3vdboom+zMlN0xJWyTa9B2rrP5ww5OPRWz8nV8rHHKQuKvwecezg9R0lq5Ki66bz34bWEtjq+8kO/p8=',
+        'IP3+GI0LVVtvyBTlGq/lShNC2RtOxfJ2mGtIsIrnGFBqcx71RP2v74WiGi/nmqf1dPZ/ygz3Djrw6gce3wwbJbA=',
+        'IPi2UTVKy7XdzPzcO6iIHZjCLc+BcMon7yM0qD3Ev4Uqc9ppGEPFIUUZJnn4n3ZSUtvM7VEBzTLznSmKCKLaHc0=',
       ]);
 
       const tokenAddr = Base58.decode('19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPJ');
@@ -211,19 +209,18 @@ describe('bridge', () => {
       b.add_supported_token(addTokenArgs);
     }).toThrow();
 
-    logs = MockVM.getLogs();
-    expect(logs[0]).toStrictEqual('quorum not met');
+    expect(MockVM.getLogs()).toStrictEqual(['quorum not met']);
     MockVM.clearLogs();
 
     const signatures = convertSigsToBytes([
-      '1fadb2e43c121b7583e0901548c5d223bf4e7dbdc6a48af6d6dff29d2b4d28ee2c6e6a683a9d9ea41b1ff48aaacc48789940e5a494aeaa1744805f5fcf5b70a721',
-      '20e6a6b014989e7ccd41e7f1501b9749328474e8891d86c5492c01010eb4e573e9150f00760cd5ac73ce2d270e5b66b696c1854fa1f8f05313de38779a413f7d13',
-      '20f6727030b3def75ba289beccc94dd31256c936bd076aeb3f9c30e4e3d15b3f2757cac71ca42e2afc1e71ece0f51d25ab92a2eba6f3df86d612d8eafbc90efe9f',
-      '20fdfe188d0b555b6fc814e51aafe54a1342d91b4ec5f276986b48b08ae718506a731ef544fdafef85a21a2fe79aa7f574f67fca0cf70e3af0ea071edf0c1b25b0',
-      '20f8b651354acbb5ddccfcdc3ba8881d98c22dcf8170ca27ef2334a83dc4bf852a73da691843c52145192679f89f765252dbcced5101cd32f39d298a08a2da1dcd',
-      '20400daa358bd18b243657e37787fc5a58086de956aaf537394f320521c64822251452deefe71d954f58164684f3e1301e0645e9173425dedccd5e822ea884ef9e',
-      '205a45e8d66a7a68309586fe638b4056ba9493b6fc5706a36b9ac036fd2c8cde1a65fa091b16563774cc7f36d63f421b0de70947a5432c3144e48e292217e699fc',
-      '1f060a75a2f03a88fb623fd7d04b7337d3a0f49b44ba284e786f82d6c52ffa407661c7f6abd45f5880630607e8e41b3e50c18095b14bebbccb6135bb5015f56205'
+      'H62y5DwSG3WD4JAVSMXSI79Ofb3GpIr21t/ynStNKO4sbmpoOp2epBsf9IqqzEh4mUDlpJSuqhdEgF9fz1twpyE=',
+      'IOamsBSYnnzNQefxUBuXSTKEdOiJHYbFSSwBAQ605XPpFQ8AdgzVrHPOLScOW2a2lsGFT6H48FMT3jh3mkE/fRM=',
+      'IPZycDCz3vdboom+zMlN0xJWyTa9B2rrP5ww5OPRWz8nV8rHHKQuKvwecezg9R0lq5Ki66bz34bWEtjq+8kO/p8=',
+      'IP3+GI0LVVtvyBTlGq/lShNC2RtOxfJ2mGtIsIrnGFBqcx71RP2v74WiGi/nmqf1dPZ/ygz3Djrw6gce3wwbJbA=',
+      'IPi2UTVKy7XdzPzcO6iIHZjCLc+BcMon7yM0qD3Ev4Uqc9ppGEPFIUUZJnn4n3ZSUtvM7VEBzTLznSmKCKLaHc0=',
+      'IEANqjWL0YskNlfjd4f8WlgIbelWqvU3OU8yBSHGSCIlFFLe7+cdlU9YFkaE8+EwHgZF6Rc0Jd7czV6CLqiE754=',
+      'IFpF6NZqemgwlYb+Y4tAVrqUk7b8Vwaja5rANv0sjN4aZfoJGxZWN3TMfzbWP0IbDecJR6VDLDFE5I4pIhfmmfw=',
+      'HwYKdaLwOoj7Yj/X0EtzN9Og9JtEuihOeG+C1sUv+kB2Ycf2q9RfWIBjBgfo5Bs+UMGAlbFL67zLYTW7UBX1YgU='
     ]);
 
     const tokenAddr = Base58.decode('19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPJ');
@@ -235,14 +232,14 @@ describe('bridge', () => {
       const b = new Bridge();
 
       const signatures = convertSigsToBytes([
-        '1fadb2e43c121b7583e0901548c5d223bf4e7dbdc6a48af6d6dff29d2b4d28ee2c6e6a683a9d9ea41b1ff48aaacc48789940e5a494aeaa1744805f5fcf5b70a721',
-        '20e6a6b014989e7ccd41e7f1501b9749328474e8891d86c5492c01010eb4e573e9150f00760cd5ac73ce2d270e5b66b696c1854fa1f8f05313de38779a413f7d13',
-        '20f6727030b3def75ba289beccc94dd31256c936bd076aeb3f9c30e4e3d15b3f2757cac71ca42e2afc1e71ece0f51d25ab92a2eba6f3df86d612d8eafbc90efe9f',
-        '20fdfe188d0b555b6fc814e51aafe54a1342d91b4ec5f276986b48b08ae718506a731ef544fdafef85a21a2fe79aa7f574f67fca0cf70e3af0ea071edf0c1b25b0',
-        '20f8b651354acbb5ddccfcdc3ba8881d98c22dcf8170ca27ef2334a83dc4bf852a73da691843c52145192679f89f765252dbcced5101cd32f39d298a08a2da1dcd',
-        '20400daa358bd18b243657e37787fc5a58086de956aaf537394f320521c64822251452deefe71d954f58164684f3e1301e0645e9173425dedccd5e822ea884ef9e',
-        '205a45e8d66a7a68309586fe638b4056ba9493b6fc5706a36b9ac036fd2c8cde1a65fa091b16563774cc7f36d63f421b0de70947a5432c3144e48e292217e699fc',
-        '1f060a75a2f03a88fb623fd7d04b7337d3a0f49b44ba284e786f82d6c52ffa407661c7f6abd45f5880630607e8e41b3e50c18095b14bebbccb6135bb5015f56205'
+        'H62y5DwSG3WD4JAVSMXSI79Ofb3GpIr21t/ynStNKO4sbmpoOp2epBsf9IqqzEh4mUDlpJSuqhdEgF9fz1twpyE=',
+        'IOamsBSYnnzNQefxUBuXSTKEdOiJHYbFSSwBAQ605XPpFQ8AdgzVrHPOLScOW2a2lsGFT6H48FMT3jh3mkE/fRM=',
+        'IPZycDCz3vdboom+zMlN0xJWyTa9B2rrP5ww5OPRWz8nV8rHHKQuKvwecezg9R0lq5Ki66bz34bWEtjq+8kO/p8=',
+        'IP3+GI0LVVtvyBTlGq/lShNC2RtOxfJ2mGtIsIrnGFBqcx71RP2v74WiGi/nmqf1dPZ/ygz3Djrw6gce3wwbJbA=',
+        'IPi2UTVKy7XdzPzcO6iIHZjCLc+BcMon7yM0qD3Ev4Uqc9ppGEPFIUUZJnn4n3ZSUtvM7VEBzTLznSmKCKLaHc0=',
+        'IEANqjWL0YskNlfjd4f8WlgIbelWqvU3OU8yBSHGSCIlFFLe7+cdlU9YFkaE8+EwHgZF6Rc0Jd7czV6CLqiE754=',
+        'IFpF6NZqemgwlYb+Y4tAVrqUk7b8Vwaja5rANv0sjN4aZfoJGxZWN3TMfzbWP0IbDecJR6VDLDFE5I4pIhfmmfw=',
+        'HwYKdaLwOoj7Yj/X0EtzN9Og9JtEuihOeG+C1sUv+kB2Ycf2q9RfWIBjBgfo5Bs+UMGAlbFL67zLYTW7UBX1YgU='
       ]);
 
       const tokenAddr = Base58.decode('19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPJ');
@@ -251,8 +248,7 @@ describe('bridge', () => {
       b.add_supported_token(addTokenArgs);
     }).toThrow();
 
-    logs = MockVM.getLogs();
-    expect(logs[0]).toStrictEqual('Token already exists');
+    expect(MockVM.getLogs()).toStrictEqual(['Token already exists']);
     MockVM.clearLogs();
   });
 });
