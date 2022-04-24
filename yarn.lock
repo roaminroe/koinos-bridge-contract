@@ -1531,6 +1531,14 @@ koinos-proto-as@^0.4.1:
   dependencies:
     as-proto "^0.2.2"
 
+koinos-sdk-as-cli@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/koinos-sdk-as-cli/-/koinos-sdk-as-cli-0.1.1.tgz#5e0808ae36e098a23d2e8477769baf33c92aa1ed"
+  integrity sha512-qZgfn7k9JrIygAtGf4jdQKa+PdYGUtRm3XCZYVYg6H0LSxtxNbifxSbLJ6KAouoSCLj6ewAhzfzhiCUtdWJRlg==
+  dependencies:
+    chalk "4.1.2"
+    commander "^9.0.0"
+
 koinos-sdk-as@koinos/koinos-sdk-as#feat-new-space-helpers:
   version "0.4.11"
   resolved "https://codeload.github.com/koinos/koinos-sdk-as/tar.gz/25447093c60824a7c1dde5cbf1953c27c2bdb20d"
