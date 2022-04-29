@@ -10,6 +10,7 @@ const CONTRACT_ID = utils.decodeBase58('1DQzuCcTKacbs9GGScRTU1Hc8BsyARTPqe');
   bridgeProto.loadSync(path.join(__dirname, '/../proto/bridge.proto'), { keepCase: true });
   const completeTransferHashProto = bridgeProto.lookupType('bridge.complete_transfer_hash');
   const addRemoveActionHashProto = bridgeProto.lookupType('bridge.add_remove_action_hash');
+  const actionIdProto = bridgeProto.lookupEnum('bridge.action_id');
 
   const wif = "5KEX4TMHG66fT7cM9HMZLmdp4hVq4LC4X2Fkg6zeypM5UteWmtd";
 
@@ -44,6 +45,7 @@ const CONTRACT_ID = utils.decodeBase58('1DQzuCcTKacbs9GGScRTU1Hc8BsyARTPqe');
     }
  */
   let buffer = completeTransferHashProto.encode({
+    action: actionIdProto.values['complete_transfer'],
     transaction_id: utils.toUint8Array('0x418bea66a16fc317ece4a3a4815beca64bafc93e99fe56031850593ca9d56f94'),
     token: utils.decodeBase58('19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPJ'),
     recipient: utils.decodeBase58('1GE2JqXw5LMQaU1sj82Dy8ZEe2BRXQS1cs'),
@@ -53,9 +55,10 @@ const CONTRACT_ID = utils.decodeBase58('1DQzuCcTKacbs9GGScRTU1Hc8BsyARTPqe');
 
   let sigs = await sign(buffer);
 
-  console.log(sigs);
+  // console.log(sigs);
 
   buffer = addRemoveActionHashProto.encode({
+    action: actionIdProto.values['add_supported_token'],
     address: utils.decodeBase58('19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPJ'),
     nonce: '1',
     contract_id: CONTRACT_ID
@@ -63,6 +66,27 @@ const CONTRACT_ID = utils.decodeBase58('1DQzuCcTKacbs9GGScRTU1Hc8BsyARTPqe');
   
   sigs = await sign(buffer);
 
-  console.log('#1', sigs);
+  console.log('should add support for token', sigs);
 
+  buffer = addRemoveActionHashProto.encode({
+    action: actionIdProto.values['add_supported_wrapped_token'],
+    address: utils.decodeBase58('19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPJ'),
+    nonce: '1',
+    contract_id: CONTRACT_ID
+  }).finish();
+  
+  sigs = await sign(buffer);
+
+  console.log('should add support for wrapped token', sigs);
+
+  buffer = addRemoveActionHashProto.encode({
+    action: actionIdProto.values['add_validator'],
+    address: utils.decodeBase58('19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPJ'),
+    nonce: '1',
+    contract_id: CONTRACT_ID
+  }).finish();
+  
+  sigs = await sign(buffer);
+
+  console.log('should add validator', sigs);
 })();

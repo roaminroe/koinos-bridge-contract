@@ -1153,18 +1153,21 @@ export namespace bridge {
 
   export class add_remove_action_hash {
     static encode(message: add_remove_action_hash, writer: Writer): void {
+      writer.uint32(8);
+      writer.int32(message.action);
+
       const unique_name_address = message.address;
       if (unique_name_address !== null) {
-        writer.uint32(10);
+        writer.uint32(18);
         writer.bytes(unique_name_address);
       }
 
-      writer.uint32(16);
+      writer.uint32(24);
       writer.uint64(message.nonce);
 
       const unique_name_contract_id = message.contract_id;
       if (unique_name_contract_id !== null) {
-        writer.uint32(26);
+        writer.uint32(34);
         writer.bytes(unique_name_contract_id);
       }
     }
@@ -1177,14 +1180,18 @@ export namespace bridge {
         const tag = reader.uint32();
         switch (tag >>> 3) {
           case 1:
-            message.address = reader.bytes();
+            message.action = reader.int32();
             break;
 
           case 2:
-            message.nonce = reader.uint64();
+            message.address = reader.bytes();
             break;
 
           case 3:
+            message.nonce = reader.uint64();
+            break;
+
+          case 4:
             message.contract_id = reader.bytes();
             break;
 
@@ -1197,15 +1204,18 @@ export namespace bridge {
       return message;
     }
 
+    action: action_id;
     address: Uint8Array | null;
     nonce: u64;
     contract_id: Uint8Array | null;
 
     constructor(
+      action: action_id = 0,
       address: Uint8Array | null = null,
       nonce: u64 = 0,
       contract_id: Uint8Array | null = null
     ) {
+      this.action = action;
       this.address = address;
       this.nonce = nonce;
       this.contract_id = contract_id;
@@ -1215,14 +1225,17 @@ export namespace bridge {
   export class set_pause_action_hash {
     static encode(message: set_pause_action_hash, writer: Writer): void {
       writer.uint32(8);
-      writer.bool(message.pause);
+      writer.int32(message.action);
 
       writer.uint32(16);
+      writer.bool(message.pause);
+
+      writer.uint32(24);
       writer.uint64(message.nonce);
 
       const unique_name_contract_id = message.contract_id;
       if (unique_name_contract_id !== null) {
-        writer.uint32(26);
+        writer.uint32(34);
         writer.bytes(unique_name_contract_id);
       }
     }
@@ -1235,14 +1248,18 @@ export namespace bridge {
         const tag = reader.uint32();
         switch (tag >>> 3) {
           case 1:
-            message.pause = reader.bool();
+            message.action = reader.int32();
             break;
 
           case 2:
-            message.nonce = reader.uint64();
+            message.pause = reader.bool();
             break;
 
           case 3:
+            message.nonce = reader.uint64();
+            break;
+
+          case 4:
             message.contract_id = reader.bytes();
             break;
 
@@ -1255,15 +1272,18 @@ export namespace bridge {
       return message;
     }
 
+    action: action_id;
     pause: bool;
     nonce: u64;
     contract_id: Uint8Array | null;
 
     constructor(
+      action: action_id = 0,
       pause: bool = false,
       nonce: u64 = 0,
       contract_id: Uint8Array | null = null
     ) {
+      this.action = action;
       this.pause = pause;
       this.nonce = nonce;
       this.contract_id = contract_id;
@@ -1272,30 +1292,33 @@ export namespace bridge {
 
   export class complete_transfer_hash {
     static encode(message: complete_transfer_hash, writer: Writer): void {
+      writer.uint32(8);
+      writer.int32(message.action);
+
       const unique_name_transaction_id = message.transaction_id;
       if (unique_name_transaction_id !== null) {
-        writer.uint32(10);
+        writer.uint32(18);
         writer.bytes(unique_name_transaction_id);
       }
 
       const unique_name_token = message.token;
       if (unique_name_token !== null) {
-        writer.uint32(18);
+        writer.uint32(26);
         writer.bytes(unique_name_token);
       }
 
       const unique_name_recipient = message.recipient;
       if (unique_name_recipient !== null) {
-        writer.uint32(26);
+        writer.uint32(34);
         writer.bytes(unique_name_recipient);
       }
 
-      writer.uint32(32);
+      writer.uint32(40);
       writer.uint64(message.amount);
 
       const unique_name_contract_id = message.contract_id;
       if (unique_name_contract_id !== null) {
-        writer.uint32(42);
+        writer.uint32(50);
         writer.bytes(unique_name_contract_id);
       }
     }
@@ -1308,22 +1331,26 @@ export namespace bridge {
         const tag = reader.uint32();
         switch (tag >>> 3) {
           case 1:
-            message.transaction_id = reader.bytes();
+            message.action = reader.int32();
             break;
 
           case 2:
-            message.token = reader.bytes();
+            message.transaction_id = reader.bytes();
             break;
 
           case 3:
-            message.recipient = reader.bytes();
+            message.token = reader.bytes();
             break;
 
           case 4:
-            message.amount = reader.uint64();
+            message.recipient = reader.bytes();
             break;
 
           case 5:
+            message.amount = reader.uint64();
+            break;
+
+          case 6:
             message.contract_id = reader.bytes();
             break;
 
@@ -1336,6 +1363,7 @@ export namespace bridge {
       return message;
     }
 
+    action: action_id;
     transaction_id: Uint8Array | null;
     token: Uint8Array | null;
     recipient: Uint8Array | null;
@@ -1343,12 +1371,14 @@ export namespace bridge {
     contract_id: Uint8Array | null;
 
     constructor(
+      action: action_id = 0,
       transaction_id: Uint8Array | null = null,
       token: Uint8Array | null = null,
       recipient: Uint8Array | null = null,
       amount: u64 = 0,
       contract_id: Uint8Array | null = null
     ) {
+      this.action = action;
       this.transaction_id = transaction_id;
       this.token = token;
       this.recipient = recipient;
@@ -1480,5 +1510,17 @@ export namespace bridge {
     }
 
     constructor() {}
+  }
+
+  export enum action_id {
+    reserved_action = 0,
+    add_validator = 1,
+    remove_validator = 2,
+    add_supported_token = 3,
+    remove_supported_token = 4,
+    add_supported_wrapped_token = 5,
+    remove_supported_wrapped_token = 6,
+    set_pause = 7,
+    complete_transfer = 8,
   }
 }

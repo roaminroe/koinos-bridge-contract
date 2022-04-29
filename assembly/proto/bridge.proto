@@ -155,25 +155,40 @@ message transfer_tokens_event {
   string recipient = 4;
 }
 
+enum action_id {
+  reserved_action = 0;
+  add_validator = 1;
+  remove_validator = 2;
+  add_supported_token = 3;
+  remove_supported_token = 4;
+  add_supported_wrapped_token = 5;
+  remove_supported_wrapped_token = 6;
+  set_pause = 7;
+  complete_transfer = 8;
+}
+
 // Objects
 message add_remove_action_hash {
-  bytes address = 1;
-  uint64 nonce = 2;
-  bytes contract_id = 3;
+  action_id action = 1;
+  bytes address = 2;
+  uint64 nonce = 3;
+  bytes contract_id = 4;
 }
 
 message set_pause_action_hash {
-  bool pause = 1;
-  uint64 nonce = 2;
-  bytes contract_id = 3;
+  action_id action = 1;
+  bool pause = 2;
+  uint64 nonce = 3;
+  bytes contract_id = 4;
 }
 
 message complete_transfer_hash {
-  bytes transaction_id = 1;
-  bytes token = 2;
-  bytes recipient = 3;
-  uint64 amount = 4;
-  bytes contract_id = 5;
+  action_id action = 1;
+  bytes transaction_id = 2;
+  bytes token = 3;
+  bytes recipient = 4;
+  uint64 amount = 5;
+  bytes contract_id = 6;
 }
 
 message metadata_object {

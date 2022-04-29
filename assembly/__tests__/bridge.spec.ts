@@ -106,21 +106,21 @@ describe('bridge', () => {
     MockVM.clearLogs();
   });
 
-  it('should add support for token #1', () => {
+  it('should add support for token', () => {
     const b = new Bridge();
     let initArgs = new bridge.initialize_arguments(validatorsAddrBytes);
 
     b.initialize(initArgs);
 
     const signatures = convertSigsToBytes([
-      'H62y5DwSG3WD4JAVSMXSI79Ofb3GpIr21t/ynStNKO4sbmpoOp2epBsf9IqqzEh4mUDlpJSuqhdEgF9fz1twpyE=',
-      'IOamsBSYnnzNQefxUBuXSTKEdOiJHYbFSSwBAQ605XPpFQ8AdgzVrHPOLScOW2a2lsGFT6H48FMT3jh3mkE/fRM=',
-      'IPZycDCz3vdboom+zMlN0xJWyTa9B2rrP5ww5OPRWz8nV8rHHKQuKvwecezg9R0lq5Ki66bz34bWEtjq+8kO/p8=',
-      'IP3+GI0LVVtvyBTlGq/lShNC2RtOxfJ2mGtIsIrnGFBqcx71RP2v74WiGi/nmqf1dPZ/ygz3Djrw6gce3wwbJbA=',
-      'IPi2UTVKy7XdzPzcO6iIHZjCLc+BcMon7yM0qD3Ev4Uqc9ppGEPFIUUZJnn4n3ZSUtvM7VEBzTLznSmKCKLaHc0=',
-      'IEANqjWL0YskNlfjd4f8WlgIbelWqvU3OU8yBSHGSCIlFFLe7+cdlU9YFkaE8+EwHgZF6Rc0Jd7czV6CLqiE754=',
-      'IFpF6NZqemgwlYb+Y4tAVrqUk7b8Vwaja5rANv0sjN4aZfoJGxZWN3TMfzbWP0IbDecJR6VDLDFE5I4pIhfmmfw=',
-      'HwYKdaLwOoj7Yj/X0EtzN9Og9JtEuihOeG+C1sUv+kB2Ycf2q9RfWIBjBgfo5Bs+UMGAlbFL67zLYTW7UBX1YgU='
+      'H5lFRpLkZXaoaWf0gc2kcOKSPxVv3UKTboBNAnM3q6RwNgJ4pYtYnfujKr+vf1y1NPGe3Dt0IPEEV9zyoxJQaB8=',
+      'ID9TrPaRw+/9jFPBKLcnE3/PH3gELjgg6xK+dOfkQQroG50wxOXi6aQDBSQoZFLCyPH7FrdR2pQLxv6lFCqi22w=',
+      'IIYmnE/temidt3AxWc2J6hssaNQJJBfOXKWtLV8lNV1+PXk9eaK3tuGh5JgCq5xEd7qcUi4aybl7E6bqDIDItIU=',
+      'IOXq8mIS6ZmyuoT7ARA27z1L2eWVBP0rNI5KmjK9hLlmHRv9U7N7Ut15vWxpzKA56aT55q7svckSdRMHmOguhT4=',
+      'H3NzUiI5CpOc0+EttyIfLumxmFhR7wsMP5zYlkM25tDxLarRTLv6trdBWQC3g3pCafnEwzk+9sWqoLlWH4xLY8Q=',
+      'H4KMreDNVxSP8G6Q6r7QWCnXdjE29E4V3bHStnBcecpNSwacxDrsX8s+xQkZM1w/BiGFwD3/k7IwWqlEHkmEWxI=',
+      'IJOAvfUnuxkFEDOJKa4sbPWmsSBY3HXcqyJO7J1pZUowNdURN+ZABAzUEnmj2xir8tZrIFJjO0Y6KyMDVkoCkyc=',
+      'H6+Nq3s17Vu3LfRCst301d6YhYfUXnY8UGcQaXiLj6W0aWaKb2lgBXcjpZa8enb25kjGtu+s91tc1TbkfprAH50='
     ]);
 
     const tokenAddr = Base58.decode('19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPJ');
@@ -150,14 +150,14 @@ describe('bridge', () => {
     expect(() => {
       const b = new Bridge();
       const signatures = convertSigsToBytes([
-        'H62y5DwSG3WD4JAVSMXSI79Ofb3GpIr21t/ynStNKO4sbmpoOp2epBsf9IqqzEh4mUDlpJSuqhdEgF9fz1twpyE=',
-        'IOamsBSYnnzNQefxUBuXSTKEdOiJHYbFSSwBAQ605XPpFQ8AdgzVrHPOLScOW2a2lsGFT6H48FMT3jh3mkE/fRM=',
-        'IPZycDCz3vdboom+zMlN0xJWyTa9B2rrP5ww5OPRWz8nV8rHHKQuKvwecezg9R0lq5Ki66bz34bWEtjq+8kO/p8=',
-        'IP3+GI0LVVtvyBTlGq/lShNC2RtOxfJ2mGtIsIrnGFBqcx71RP2v74WiGi/nmqf1dPZ/ygz3Djrw6gce3wwbJbA=',
-        'IPi2UTVKy7XdzPzcO6iIHZjCLc+BcMon7yM0qD3Ev4Uqc9ppGEPFIUUZJnn4n3ZSUtvM7VEBzTLznSmKCKLaHc0=',
-        'IEANqjWL0YskNlfjd4f8WlgIbelWqvU3OU8yBSHGSCIlFFLe7+cdlU9YFkaE8+EwHgZF6Rc0Jd7czV6CLqiE754=',
-        'IFpF6NZqemgwlYb+Y4tAVrqUk7b8Vwaja5rANv0sjN4aZfoJGxZWN3TMfzbWP0IbDecJR6VDLDFE5I4pIhfmmfw=',
-        'HwYKdaLwOoj7Yj/X0EtzN9Og9JtEuihOeG+C1sUv+kB2Ycf2q9RfWIBjBgfo5Bs+UMGAlbFL67zLYTW7UBX1YgU='
+        'H5lFRpLkZXaoaWf0gc2kcOKSPxVv3UKTboBNAnM3q6RwNgJ4pYtYnfujKr+vf1y1NPGe3Dt0IPEEV9zyoxJQaB8=',
+        'ID9TrPaRw+/9jFPBKLcnE3/PH3gELjgg6xK+dOfkQQroG50wxOXi6aQDBSQoZFLCyPH7FrdR2pQLxv6lFCqi22w=',
+        'IIYmnE/temidt3AxWc2J6hssaNQJJBfOXKWtLV8lNV1+PXk9eaK3tuGh5JgCq5xEd7qcUi4aybl7E6bqDIDItIU=',
+        'IOXq8mIS6ZmyuoT7ARA27z1L2eWVBP0rNI5KmjK9hLlmHRv9U7N7Ut15vWxpzKA56aT55q7svckSdRMHmOguhT4=',
+        'H3NzUiI5CpOc0+EttyIfLumxmFhR7wsMP5zYlkM25tDxLarRTLv6trdBWQC3g3pCafnEwzk+9sWqoLlWH4xLY8Q=',
+        'H4KMreDNVxSP8G6Q6r7QWCnXdjE29E4V3bHStnBcecpNSwacxDrsX8s+xQkZM1w/BiGFwD3/k7IwWqlEHkmEWxI=',
+        'IJOAvfUnuxkFEDOJKa4sbPWmsSBY3HXcqyJO7J1pZUowNdURN+ZABAzUEnmj2xir8tZrIFJjO0Y6KyMDVkoCkyc=',
+        'H6+Nq3s17Vu3LfRCst301d6YhYfUXnY8UGcQaXiLj6W0aWaKb2lgBXcjpZa8enb25kjGtu+s91tc1TbkfprAH50='
       ]);
 
       const tokenAddr = Base58.decode('19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPK');
@@ -166,21 +166,22 @@ describe('bridge', () => {
       b.add_supported_token(addTokenArgs);
     }).toThrow();
 
-    expect(MockVM.getLogs()).toStrictEqual(['16bZDH5igFMJG8BoNMkJVdKsY1yVDB5S5b is not a validator']);
+    expect(MockVM.getLogs()).toStrictEqual(['1M7YfL49EK4NGs9ZYKNTeBx9HTMEz3Fh2S is not a validator']);
     MockVM.clearLogs();
 
     expect(() => {
       const b = new Bridge();
 
       const signatures = convertSigsToBytes([
-        'H62y5DwSG3WD4JAVSMXSI79Ofb3GpIr21t/ynStNKO4sbmpoOp2epBsf9IqqzEh4mUDlpJSuqhdEgF9fz1twpyE=',
-        'IOamsBSYnnzNQefxUBuXSTKEdOiJHYbFSSwBAQ605XPpFQ8AdgzVrHPOLScOW2a2lsGFT6H48FMT3jh3mkE/fRM=',
-        'IPZycDCz3vdboom+zMlN0xJWyTa9B2rrP5ww5OPRWz8nV8rHHKQuKvwecezg9R0lq5Ki66bz34bWEtjq+8kO/p8=',
-        'IP3+GI0LVVtvyBTlGq/lShNC2RtOxfJ2mGtIsIrnGFBqcx71RP2v74WiGi/nmqf1dPZ/ygz3Djrw6gce3wwbJbA=',
-        'IPi2UTVKy7XdzPzcO6iIHZjCLc+BcMon7yM0qD3Ev4Uqc9ppGEPFIUUZJnn4n3ZSUtvM7VEBzTLznSmKCKLaHc0=',
-        'IEANqjWL0YskNlfjd4f8WlgIbelWqvU3OU8yBSHGSCIlFFLe7+cdlU9YFkaE8+EwHgZF6Rc0Jd7czV6CLqiE754=',
-        'IFpF6NZqemgwlYb+Y4tAVrqUk7b8Vwaja5rANv0sjN4aZfoJGxZWN3TMfzbWP0IbDecJR6VDLDFE5I4pIhfmmfw=',
-        'IFpF6NZqemgwlYb+Y4tAVrqUk7b8Vwaja5rANv0sjN4aZfoJGxZWN3TMfzbWP0IbDecJR6VDLDFE5I4pIhfmmfw=',
+        'H5lFRpLkZXaoaWf0gc2kcOKSPxVv3UKTboBNAnM3q6RwNgJ4pYtYnfujKr+vf1y1NPGe3Dt0IPEEV9zyoxJQaB8=',
+        'ID9TrPaRw+/9jFPBKLcnE3/PH3gELjgg6xK+dOfkQQroG50wxOXi6aQDBSQoZFLCyPH7FrdR2pQLxv6lFCqi22w=',
+        'IIYmnE/temidt3AxWc2J6hssaNQJJBfOXKWtLV8lNV1+PXk9eaK3tuGh5JgCq5xEd7qcUi4aybl7E6bqDIDItIU=',
+        'IOXq8mIS6ZmyuoT7ARA27z1L2eWVBP0rNI5KmjK9hLlmHRv9U7N7Ut15vWxpzKA56aT55q7svckSdRMHmOguhT4=',
+        'H3NzUiI5CpOc0+EttyIfLumxmFhR7wsMP5zYlkM25tDxLarRTLv6trdBWQC3g3pCafnEwzk+9sWqoLlWH4xLY8Q=',
+        'H4KMreDNVxSP8G6Q6r7QWCnXdjE29E4V3bHStnBcecpNSwacxDrsX8s+xQkZM1w/BiGFwD3/k7IwWqlEHkmEWxI=',
+        'H4KMreDNVxSP8G6Q6r7QWCnXdjE29E4V3bHStnBcecpNSwacxDrsX8s+xQkZM1w/BiGFwD3/k7IwWqlEHkmEWxI=',
+        'IJOAvfUnuxkFEDOJKa4sbPWmsSBY3HXcqyJO7J1pZUowNdURN+ZABAzUEnmj2xir8tZrIFJjO0Y6KyMDVkoCkyc=',
+        'H6+Nq3s17Vu3LfRCst301d6YhYfUXnY8UGcQaXiLj6W0aWaKb2lgBXcjpZa8enb25kjGtu+s91tc1TbkfprAH50='
       ]);
 
       const tokenAddr = Base58.decode('19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPJ');
@@ -189,18 +190,18 @@ describe('bridge', () => {
       b.add_supported_token(addTokenArgs);
     }).toThrow();
 
-    expect(MockVM.getLogs()).toStrictEqual(['validator 1MwE1VWBWyRNDWcdgDGNChatXBU73Sc42p already signed']);
+    expect(MockVM.getLogs()).toStrictEqual(['validator 1BTG2Xo4EgMMchMSytW3bmyY75Ce54oCaw already signed']);
     MockVM.clearLogs();
 
     expect(() => {
       const b = new Bridge();
 
       const signatures = convertSigsToBytes([
-        'H62y5DwSG3WD4JAVSMXSI79Ofb3GpIr21t/ynStNKO4sbmpoOp2epBsf9IqqzEh4mUDlpJSuqhdEgF9fz1twpyE=',
-        'IOamsBSYnnzNQefxUBuXSTKEdOiJHYbFSSwBAQ605XPpFQ8AdgzVrHPOLScOW2a2lsGFT6H48FMT3jh3mkE/fRM=',
-        'IPZycDCz3vdboom+zMlN0xJWyTa9B2rrP5ww5OPRWz8nV8rHHKQuKvwecezg9R0lq5Ki66bz34bWEtjq+8kO/p8=',
-        'IP3+GI0LVVtvyBTlGq/lShNC2RtOxfJ2mGtIsIrnGFBqcx71RP2v74WiGi/nmqf1dPZ/ygz3Djrw6gce3wwbJbA=',
-        'IPi2UTVKy7XdzPzcO6iIHZjCLc+BcMon7yM0qD3Ev4Uqc9ppGEPFIUUZJnn4n3ZSUtvM7VEBzTLznSmKCKLaHc0=',
+        'H5lFRpLkZXaoaWf0gc2kcOKSPxVv3UKTboBNAnM3q6RwNgJ4pYtYnfujKr+vf1y1NPGe3Dt0IPEEV9zyoxJQaB8=',
+        'ID9TrPaRw+/9jFPBKLcnE3/PH3gELjgg6xK+dOfkQQroG50wxOXi6aQDBSQoZFLCyPH7FrdR2pQLxv6lFCqi22w=',
+        'IIYmnE/temidt3AxWc2J6hssaNQJJBfOXKWtLV8lNV1+PXk9eaK3tuGh5JgCq5xEd7qcUi4aybl7E6bqDIDItIU=',
+        'IOXq8mIS6ZmyuoT7ARA27z1L2eWVBP0rNI5KmjK9hLlmHRv9U7N7Ut15vWxpzKA56aT55q7svckSdRMHmOguhT4=',
+        'H3NzUiI5CpOc0+EttyIfLumxmFhR7wsMP5zYlkM25tDxLarRTLv6trdBWQC3g3pCafnEwzk+9sWqoLlWH4xLY8Q='
       ]);
 
       const tokenAddr = Base58.decode('19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPJ');
@@ -213,14 +214,14 @@ describe('bridge', () => {
     MockVM.clearLogs();
 
     const signatures = convertSigsToBytes([
-      'H62y5DwSG3WD4JAVSMXSI79Ofb3GpIr21t/ynStNKO4sbmpoOp2epBsf9IqqzEh4mUDlpJSuqhdEgF9fz1twpyE=',
-      'IOamsBSYnnzNQefxUBuXSTKEdOiJHYbFSSwBAQ605XPpFQ8AdgzVrHPOLScOW2a2lsGFT6H48FMT3jh3mkE/fRM=',
-      'IPZycDCz3vdboom+zMlN0xJWyTa9B2rrP5ww5OPRWz8nV8rHHKQuKvwecezg9R0lq5Ki66bz34bWEtjq+8kO/p8=',
-      'IP3+GI0LVVtvyBTlGq/lShNC2RtOxfJ2mGtIsIrnGFBqcx71RP2v74WiGi/nmqf1dPZ/ygz3Djrw6gce3wwbJbA=',
-      'IPi2UTVKy7XdzPzcO6iIHZjCLc+BcMon7yM0qD3Ev4Uqc9ppGEPFIUUZJnn4n3ZSUtvM7VEBzTLznSmKCKLaHc0=',
-      'IEANqjWL0YskNlfjd4f8WlgIbelWqvU3OU8yBSHGSCIlFFLe7+cdlU9YFkaE8+EwHgZF6Rc0Jd7czV6CLqiE754=',
-      'IFpF6NZqemgwlYb+Y4tAVrqUk7b8Vwaja5rANv0sjN4aZfoJGxZWN3TMfzbWP0IbDecJR6VDLDFE5I4pIhfmmfw=',
-      'HwYKdaLwOoj7Yj/X0EtzN9Og9JtEuihOeG+C1sUv+kB2Ycf2q9RfWIBjBgfo5Bs+UMGAlbFL67zLYTW7UBX1YgU='
+      'H5lFRpLkZXaoaWf0gc2kcOKSPxVv3UKTboBNAnM3q6RwNgJ4pYtYnfujKr+vf1y1NPGe3Dt0IPEEV9zyoxJQaB8=',
+      'ID9TrPaRw+/9jFPBKLcnE3/PH3gELjgg6xK+dOfkQQroG50wxOXi6aQDBSQoZFLCyPH7FrdR2pQLxv6lFCqi22w=',
+      'IIYmnE/temidt3AxWc2J6hssaNQJJBfOXKWtLV8lNV1+PXk9eaK3tuGh5JgCq5xEd7qcUi4aybl7E6bqDIDItIU=',
+      'IOXq8mIS6ZmyuoT7ARA27z1L2eWVBP0rNI5KmjK9hLlmHRv9U7N7Ut15vWxpzKA56aT55q7svckSdRMHmOguhT4=',
+      'H3NzUiI5CpOc0+EttyIfLumxmFhR7wsMP5zYlkM25tDxLarRTLv6trdBWQC3g3pCafnEwzk+9sWqoLlWH4xLY8Q=',
+      'H4KMreDNVxSP8G6Q6r7QWCnXdjE29E4V3bHStnBcecpNSwacxDrsX8s+xQkZM1w/BiGFwD3/k7IwWqlEHkmEWxI=',
+      'IJOAvfUnuxkFEDOJKa4sbPWmsSBY3HXcqyJO7J1pZUowNdURN+ZABAzUEnmj2xir8tZrIFJjO0Y6KyMDVkoCkyc=',
+      'H6+Nq3s17Vu3LfRCst301d6YhYfUXnY8UGcQaXiLj6W0aWaKb2lgBXcjpZa8enb25kjGtu+s91tc1TbkfprAH50='
     ]);
 
     const tokenAddr = Base58.decode('19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPJ');
@@ -232,14 +233,14 @@ describe('bridge', () => {
       const b = new Bridge();
 
       const signatures = convertSigsToBytes([
-        'H62y5DwSG3WD4JAVSMXSI79Ofb3GpIr21t/ynStNKO4sbmpoOp2epBsf9IqqzEh4mUDlpJSuqhdEgF9fz1twpyE=',
-        'IOamsBSYnnzNQefxUBuXSTKEdOiJHYbFSSwBAQ605XPpFQ8AdgzVrHPOLScOW2a2lsGFT6H48FMT3jh3mkE/fRM=',
-        'IPZycDCz3vdboom+zMlN0xJWyTa9B2rrP5ww5OPRWz8nV8rHHKQuKvwecezg9R0lq5Ki66bz34bWEtjq+8kO/p8=',
-        'IP3+GI0LVVtvyBTlGq/lShNC2RtOxfJ2mGtIsIrnGFBqcx71RP2v74WiGi/nmqf1dPZ/ygz3Djrw6gce3wwbJbA=',
-        'IPi2UTVKy7XdzPzcO6iIHZjCLc+BcMon7yM0qD3Ev4Uqc9ppGEPFIUUZJnn4n3ZSUtvM7VEBzTLznSmKCKLaHc0=',
-        'IEANqjWL0YskNlfjd4f8WlgIbelWqvU3OU8yBSHGSCIlFFLe7+cdlU9YFkaE8+EwHgZF6Rc0Jd7czV6CLqiE754=',
-        'IFpF6NZqemgwlYb+Y4tAVrqUk7b8Vwaja5rANv0sjN4aZfoJGxZWN3TMfzbWP0IbDecJR6VDLDFE5I4pIhfmmfw=',
-        'HwYKdaLwOoj7Yj/X0EtzN9Og9JtEuihOeG+C1sUv+kB2Ycf2q9RfWIBjBgfo5Bs+UMGAlbFL67zLYTW7UBX1YgU='
+        'H5lFRpLkZXaoaWf0gc2kcOKSPxVv3UKTboBNAnM3q6RwNgJ4pYtYnfujKr+vf1y1NPGe3Dt0IPEEV9zyoxJQaB8=',
+        'ID9TrPaRw+/9jFPBKLcnE3/PH3gELjgg6xK+dOfkQQroG50wxOXi6aQDBSQoZFLCyPH7FrdR2pQLxv6lFCqi22w=',
+        'IIYmnE/temidt3AxWc2J6hssaNQJJBfOXKWtLV8lNV1+PXk9eaK3tuGh5JgCq5xEd7qcUi4aybl7E6bqDIDItIU=',
+        'IOXq8mIS6ZmyuoT7ARA27z1L2eWVBP0rNI5KmjK9hLlmHRv9U7N7Ut15vWxpzKA56aT55q7svckSdRMHmOguhT4=',
+        'H3NzUiI5CpOc0+EttyIfLumxmFhR7wsMP5zYlkM25tDxLarRTLv6trdBWQC3g3pCafnEwzk+9sWqoLlWH4xLY8Q=',
+        'H4KMreDNVxSP8G6Q6r7QWCnXdjE29E4V3bHStnBcecpNSwacxDrsX8s+xQkZM1w/BiGFwD3/k7IwWqlEHkmEWxI=',
+        'IJOAvfUnuxkFEDOJKa4sbPWmsSBY3HXcqyJO7J1pZUowNdURN+ZABAzUEnmj2xir8tZrIFJjO0Y6KyMDVkoCkyc=',
+        'H6+Nq3s17Vu3LfRCst301d6YhYfUXnY8UGcQaXiLj6W0aWaKb2lgBXcjpZa8enb25kjGtu+s91tc1TbkfprAH50='
       ]);
 
       const tokenAddr = Base58.decode('19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPJ');
@@ -252,21 +253,21 @@ describe('bridge', () => {
     MockVM.clearLogs();
   });
 
-  it('should add support for wrapped token #1', () => {
+  it('should add support for wrapped token', () => {
     const b = new Bridge();
     let initArgs = new bridge.initialize_arguments(validatorsAddrBytes);
 
     b.initialize(initArgs);
 
     const signatures = convertSigsToBytes([
-      'H62y5DwSG3WD4JAVSMXSI79Ofb3GpIr21t/ynStNKO4sbmpoOp2epBsf9IqqzEh4mUDlpJSuqhdEgF9fz1twpyE=',
-      'IOamsBSYnnzNQefxUBuXSTKEdOiJHYbFSSwBAQ605XPpFQ8AdgzVrHPOLScOW2a2lsGFT6H48FMT3jh3mkE/fRM=',
-      'IPZycDCz3vdboom+zMlN0xJWyTa9B2rrP5ww5OPRWz8nV8rHHKQuKvwecezg9R0lq5Ki66bz34bWEtjq+8kO/p8=',
-      'IP3+GI0LVVtvyBTlGq/lShNC2RtOxfJ2mGtIsIrnGFBqcx71RP2v74WiGi/nmqf1dPZ/ygz3Djrw6gce3wwbJbA=',
-      'IPi2UTVKy7XdzPzcO6iIHZjCLc+BcMon7yM0qD3Ev4Uqc9ppGEPFIUUZJnn4n3ZSUtvM7VEBzTLznSmKCKLaHc0=',
-      'IEANqjWL0YskNlfjd4f8WlgIbelWqvU3OU8yBSHGSCIlFFLe7+cdlU9YFkaE8+EwHgZF6Rc0Jd7czV6CLqiE754=',
-      'IFpF6NZqemgwlYb+Y4tAVrqUk7b8Vwaja5rANv0sjN4aZfoJGxZWN3TMfzbWP0IbDecJR6VDLDFE5I4pIhfmmfw=',
-      'HwYKdaLwOoj7Yj/X0EtzN9Og9JtEuihOeG+C1sUv+kB2Ycf2q9RfWIBjBgfo5Bs+UMGAlbFL67zLYTW7UBX1YgU='
+      'H80QLYEdEJQ+sCKZBmEi44NvbIRiigJJB/r8Vu6YmNGVbk63hlrNxk6u+a7ZqqZLKUCSyYFpqtK4Fv51nENKSQE=',
+      'H/Auu18V8Ft51mqy6SxCvX5agX3JUn/3UuR2z9Yc74AFcf57cl4vEbPQQaV0ISgIicasjZ0cRSIWRoPjLmuG3/M=',
+      'HybNR4I3VHePD6s+13LRBlIkovmUnzwYR2GoPcRuOBjNMuT+2Gy1kvrYYmzC3dz8h36JDSbyI0NapohoTRsnVEo=',
+      'H+2Ve1nOM2+/fFD5Ss/bddMRJ10vr21ePkofH/1CKS3DPsuwJFbGYaaCuZnhY78QqT5loAbL2d80MOM+e57He1c=',
+      'IIiEch6ccUdmpT4GYcbVzjbuR5Duf9tQTER5MGYL93KsNa/T2Kj98ABqnGwygKBtmJ1SuIrCfuupSUoGHwgN5Kc=',
+      'INLnIlY2FqxIIb6XcjGg1EmTwLoMMnwe+6AVSACJd0ipEp7/Cw/aFz1G14aOXPd86TYUHuzQZQVFQBRFXqEVhfo=',
+      'IPoiiFz5fg57E4BcSyPJWciqnCuhdVPy2ayw7/JstuRiHTXSqh/wQNJw+mwm2ODD2v9ypVigyY6W0kd+yjtCTZE=',
+      'H7T3AZ9yuuYb10SEjTurwv2W9jrnSFoPAuFJ9z/kRoW1W6xf/duDP9q6zqUjHwaouFNFvJlQq8ieurH/F8RBCPc='
     ]);
 
     const tokenAddr = Base58.decode('19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPJ');
@@ -296,14 +297,14 @@ describe('bridge', () => {
     expect(() => {
       const b = new Bridge();
       const signatures = convertSigsToBytes([
-        'H62y5DwSG3WD4JAVSMXSI79Ofb3GpIr21t/ynStNKO4sbmpoOp2epBsf9IqqzEh4mUDlpJSuqhdEgF9fz1twpyE=',
-        'IOamsBSYnnzNQefxUBuXSTKEdOiJHYbFSSwBAQ605XPpFQ8AdgzVrHPOLScOW2a2lsGFT6H48FMT3jh3mkE/fRM=',
-        'IPZycDCz3vdboom+zMlN0xJWyTa9B2rrP5ww5OPRWz8nV8rHHKQuKvwecezg9R0lq5Ki66bz34bWEtjq+8kO/p8=',
-        'IP3+GI0LVVtvyBTlGq/lShNC2RtOxfJ2mGtIsIrnGFBqcx71RP2v74WiGi/nmqf1dPZ/ygz3Djrw6gce3wwbJbA=',
-        'IPi2UTVKy7XdzPzcO6iIHZjCLc+BcMon7yM0qD3Ev4Uqc9ppGEPFIUUZJnn4n3ZSUtvM7VEBzTLznSmKCKLaHc0=',
-        'IEANqjWL0YskNlfjd4f8WlgIbelWqvU3OU8yBSHGSCIlFFLe7+cdlU9YFkaE8+EwHgZF6Rc0Jd7czV6CLqiE754=',
-        'IFpF6NZqemgwlYb+Y4tAVrqUk7b8Vwaja5rANv0sjN4aZfoJGxZWN3TMfzbWP0IbDecJR6VDLDFE5I4pIhfmmfw=',
-        'HwYKdaLwOoj7Yj/X0EtzN9Og9JtEuihOeG+C1sUv+kB2Ycf2q9RfWIBjBgfo5Bs+UMGAlbFL67zLYTW7UBX1YgU='
+        'H80QLYEdEJQ+sCKZBmEi44NvbIRiigJJB/r8Vu6YmNGVbk63hlrNxk6u+a7ZqqZLKUCSyYFpqtK4Fv51nENKSQE=',
+        'H/Auu18V8Ft51mqy6SxCvX5agX3JUn/3UuR2z9Yc74AFcf57cl4vEbPQQaV0ISgIicasjZ0cRSIWRoPjLmuG3/M=',
+        'HybNR4I3VHePD6s+13LRBlIkovmUnzwYR2GoPcRuOBjNMuT+2Gy1kvrYYmzC3dz8h36JDSbyI0NapohoTRsnVEo=',
+        'H+2Ve1nOM2+/fFD5Ss/bddMRJ10vr21ePkofH/1CKS3DPsuwJFbGYaaCuZnhY78QqT5loAbL2d80MOM+e57He1c=',
+        'IIiEch6ccUdmpT4GYcbVzjbuR5Duf9tQTER5MGYL93KsNa/T2Kj98ABqnGwygKBtmJ1SuIrCfuupSUoGHwgN5Kc=',
+        'INLnIlY2FqxIIb6XcjGg1EmTwLoMMnwe+6AVSACJd0ipEp7/Cw/aFz1G14aOXPd86TYUHuzQZQVFQBRFXqEVhfo=',
+        'IPoiiFz5fg57E4BcSyPJWciqnCuhdVPy2ayw7/JstuRiHTXSqh/wQNJw+mwm2ODD2v9ypVigyY6W0kd+yjtCTZE=',
+        'H7T3AZ9yuuYb10SEjTurwv2W9jrnSFoPAuFJ9z/kRoW1W6xf/duDP9q6zqUjHwaouFNFvJlQq8ieurH/F8RBCPc='
       ]);
 
       const tokenAddr = Base58.decode('19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPK');
@@ -312,21 +313,22 @@ describe('bridge', () => {
       b.add_supported_wrapped_token(addTokenArgs);
     }).toThrow();
 
-    expect(MockVM.getLogs()).toStrictEqual(['16bZDH5igFMJG8BoNMkJVdKsY1yVDB5S5b is not a validator']);
+    expect(MockVM.getLogs()).toStrictEqual(['16CAaFoNPh9yZmbzod7NXAymFmxeU1EKnQ is not a validator']);
     MockVM.clearLogs();
 
     expect(() => {
       const b = new Bridge();
 
       const signatures = convertSigsToBytes([
-        'H62y5DwSG3WD4JAVSMXSI79Ofb3GpIr21t/ynStNKO4sbmpoOp2epBsf9IqqzEh4mUDlpJSuqhdEgF9fz1twpyE=',
-        'IOamsBSYnnzNQefxUBuXSTKEdOiJHYbFSSwBAQ605XPpFQ8AdgzVrHPOLScOW2a2lsGFT6H48FMT3jh3mkE/fRM=',
-        'IPZycDCz3vdboom+zMlN0xJWyTa9B2rrP5ww5OPRWz8nV8rHHKQuKvwecezg9R0lq5Ki66bz34bWEtjq+8kO/p8=',
-        'IP3+GI0LVVtvyBTlGq/lShNC2RtOxfJ2mGtIsIrnGFBqcx71RP2v74WiGi/nmqf1dPZ/ygz3Djrw6gce3wwbJbA=',
-        'IPi2UTVKy7XdzPzcO6iIHZjCLc+BcMon7yM0qD3Ev4Uqc9ppGEPFIUUZJnn4n3ZSUtvM7VEBzTLznSmKCKLaHc0=',
-        'IEANqjWL0YskNlfjd4f8WlgIbelWqvU3OU8yBSHGSCIlFFLe7+cdlU9YFkaE8+EwHgZF6Rc0Jd7czV6CLqiE754=',
-        'IFpF6NZqemgwlYb+Y4tAVrqUk7b8Vwaja5rANv0sjN4aZfoJGxZWN3TMfzbWP0IbDecJR6VDLDFE5I4pIhfmmfw=',
-        'IFpF6NZqemgwlYb+Y4tAVrqUk7b8Vwaja5rANv0sjN4aZfoJGxZWN3TMfzbWP0IbDecJR6VDLDFE5I4pIhfmmfw=',
+        'H80QLYEdEJQ+sCKZBmEi44NvbIRiigJJB/r8Vu6YmNGVbk63hlrNxk6u+a7ZqqZLKUCSyYFpqtK4Fv51nENKSQE=',
+        'H/Auu18V8Ft51mqy6SxCvX5agX3JUn/3UuR2z9Yc74AFcf57cl4vEbPQQaV0ISgIicasjZ0cRSIWRoPjLmuG3/M=',
+        'HybNR4I3VHePD6s+13LRBlIkovmUnzwYR2GoPcRuOBjNMuT+2Gy1kvrYYmzC3dz8h36JDSbyI0NapohoTRsnVEo=',
+        'H+2Ve1nOM2+/fFD5Ss/bddMRJ10vr21ePkofH/1CKS3DPsuwJFbGYaaCuZnhY78QqT5loAbL2d80MOM+e57He1c=',
+        'IIiEch6ccUdmpT4GYcbVzjbuR5Duf9tQTER5MGYL93KsNa/T2Kj98ABqnGwygKBtmJ1SuIrCfuupSUoGHwgN5Kc=',
+        'IIiEch6ccUdmpT4GYcbVzjbuR5Duf9tQTER5MGYL93KsNa/T2Kj98ABqnGwygKBtmJ1SuIrCfuupSUoGHwgN5Kc=',
+        'INLnIlY2FqxIIb6XcjGg1EmTwLoMMnwe+6AVSACJd0ipEp7/Cw/aFz1G14aOXPd86TYUHuzQZQVFQBRFXqEVhfo=',
+        'IPoiiFz5fg57E4BcSyPJWciqnCuhdVPy2ayw7/JstuRiHTXSqh/wQNJw+mwm2ODD2v9ypVigyY6W0kd+yjtCTZE=',
+        'H7T3AZ9yuuYb10SEjTurwv2W9jrnSFoPAuFJ9z/kRoW1W6xf/duDP9q6zqUjHwaouFNFvJlQq8ieurH/F8RBCPc='
       ]);
 
       const tokenAddr = Base58.decode('19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPJ');
@@ -335,18 +337,18 @@ describe('bridge', () => {
       b.add_supported_wrapped_token(addTokenArgs);
     }).toThrow();
 
-    expect(MockVM.getLogs()).toStrictEqual(['validator 1MwE1VWBWyRNDWcdgDGNChatXBU73Sc42p already signed']);
+    expect(MockVM.getLogs()).toStrictEqual(['validator 1FTx6dfpvSpyToKmkdAAQsVHW6DsyqSeHZ already signed']);
     MockVM.clearLogs();
 
     expect(() => {
       const b = new Bridge();
 
       const signatures = convertSigsToBytes([
-        'H62y5DwSG3WD4JAVSMXSI79Ofb3GpIr21t/ynStNKO4sbmpoOp2epBsf9IqqzEh4mUDlpJSuqhdEgF9fz1twpyE=',
-        'IOamsBSYnnzNQefxUBuXSTKEdOiJHYbFSSwBAQ605XPpFQ8AdgzVrHPOLScOW2a2lsGFT6H48FMT3jh3mkE/fRM=',
-        'IPZycDCz3vdboom+zMlN0xJWyTa9B2rrP5ww5OPRWz8nV8rHHKQuKvwecezg9R0lq5Ki66bz34bWEtjq+8kO/p8=',
-        'IP3+GI0LVVtvyBTlGq/lShNC2RtOxfJ2mGtIsIrnGFBqcx71RP2v74WiGi/nmqf1dPZ/ygz3Djrw6gce3wwbJbA=',
-        'IPi2UTVKy7XdzPzcO6iIHZjCLc+BcMon7yM0qD3Ev4Uqc9ppGEPFIUUZJnn4n3ZSUtvM7VEBzTLznSmKCKLaHc0=',
+        'H80QLYEdEJQ+sCKZBmEi44NvbIRiigJJB/r8Vu6YmNGVbk63hlrNxk6u+a7ZqqZLKUCSyYFpqtK4Fv51nENKSQE=',
+        'H/Auu18V8Ft51mqy6SxCvX5agX3JUn/3UuR2z9Yc74AFcf57cl4vEbPQQaV0ISgIicasjZ0cRSIWRoPjLmuG3/M=',
+        'HybNR4I3VHePD6s+13LRBlIkovmUnzwYR2GoPcRuOBjNMuT+2Gy1kvrYYmzC3dz8h36JDSbyI0NapohoTRsnVEo=',
+        'H+2Ve1nOM2+/fFD5Ss/bddMRJ10vr21ePkofH/1CKS3DPsuwJFbGYaaCuZnhY78QqT5loAbL2d80MOM+e57He1c=',
+        'IIiEch6ccUdmpT4GYcbVzjbuR5Duf9tQTER5MGYL93KsNa/T2Kj98ABqnGwygKBtmJ1SuIrCfuupSUoGHwgN5Kc='
       ]);
 
       const tokenAddr = Base58.decode('19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPJ');
@@ -359,14 +361,14 @@ describe('bridge', () => {
     MockVM.clearLogs();
 
     const signatures = convertSigsToBytes([
-      'H62y5DwSG3WD4JAVSMXSI79Ofb3GpIr21t/ynStNKO4sbmpoOp2epBsf9IqqzEh4mUDlpJSuqhdEgF9fz1twpyE=',
-      'IOamsBSYnnzNQefxUBuXSTKEdOiJHYbFSSwBAQ605XPpFQ8AdgzVrHPOLScOW2a2lsGFT6H48FMT3jh3mkE/fRM=',
-      'IPZycDCz3vdboom+zMlN0xJWyTa9B2rrP5ww5OPRWz8nV8rHHKQuKvwecezg9R0lq5Ki66bz34bWEtjq+8kO/p8=',
-      'IP3+GI0LVVtvyBTlGq/lShNC2RtOxfJ2mGtIsIrnGFBqcx71RP2v74WiGi/nmqf1dPZ/ygz3Djrw6gce3wwbJbA=',
-      'IPi2UTVKy7XdzPzcO6iIHZjCLc+BcMon7yM0qD3Ev4Uqc9ppGEPFIUUZJnn4n3ZSUtvM7VEBzTLznSmKCKLaHc0=',
-      'IEANqjWL0YskNlfjd4f8WlgIbelWqvU3OU8yBSHGSCIlFFLe7+cdlU9YFkaE8+EwHgZF6Rc0Jd7czV6CLqiE754=',
-      'IFpF6NZqemgwlYb+Y4tAVrqUk7b8Vwaja5rANv0sjN4aZfoJGxZWN3TMfzbWP0IbDecJR6VDLDFE5I4pIhfmmfw=',
-      'HwYKdaLwOoj7Yj/X0EtzN9Og9JtEuihOeG+C1sUv+kB2Ycf2q9RfWIBjBgfo5Bs+UMGAlbFL67zLYTW7UBX1YgU='
+      'H80QLYEdEJQ+sCKZBmEi44NvbIRiigJJB/r8Vu6YmNGVbk63hlrNxk6u+a7ZqqZLKUCSyYFpqtK4Fv51nENKSQE=',
+      'H/Auu18V8Ft51mqy6SxCvX5agX3JUn/3UuR2z9Yc74AFcf57cl4vEbPQQaV0ISgIicasjZ0cRSIWRoPjLmuG3/M=',
+      'HybNR4I3VHePD6s+13LRBlIkovmUnzwYR2GoPcRuOBjNMuT+2Gy1kvrYYmzC3dz8h36JDSbyI0NapohoTRsnVEo=',
+      'H+2Ve1nOM2+/fFD5Ss/bddMRJ10vr21ePkofH/1CKS3DPsuwJFbGYaaCuZnhY78QqT5loAbL2d80MOM+e57He1c=',
+      'IIiEch6ccUdmpT4GYcbVzjbuR5Duf9tQTER5MGYL93KsNa/T2Kj98ABqnGwygKBtmJ1SuIrCfuupSUoGHwgN5Kc=',
+      'INLnIlY2FqxIIb6XcjGg1EmTwLoMMnwe+6AVSACJd0ipEp7/Cw/aFz1G14aOXPd86TYUHuzQZQVFQBRFXqEVhfo=',
+      'IPoiiFz5fg57E4BcSyPJWciqnCuhdVPy2ayw7/JstuRiHTXSqh/wQNJw+mwm2ODD2v9ypVigyY6W0kd+yjtCTZE=',
+      'H7T3AZ9yuuYb10SEjTurwv2W9jrnSFoPAuFJ9z/kRoW1W6xf/duDP9q6zqUjHwaouFNFvJlQq8ieurH/F8RBCPc='
     ]);
 
     const tokenAddr = Base58.decode('19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPJ');
@@ -378,14 +380,14 @@ describe('bridge', () => {
       const b = new Bridge();
 
       const signatures = convertSigsToBytes([
-        'H62y5DwSG3WD4JAVSMXSI79Ofb3GpIr21t/ynStNKO4sbmpoOp2epBsf9IqqzEh4mUDlpJSuqhdEgF9fz1twpyE=',
-        'IOamsBSYnnzNQefxUBuXSTKEdOiJHYbFSSwBAQ605XPpFQ8AdgzVrHPOLScOW2a2lsGFT6H48FMT3jh3mkE/fRM=',
-        'IPZycDCz3vdboom+zMlN0xJWyTa9B2rrP5ww5OPRWz8nV8rHHKQuKvwecezg9R0lq5Ki66bz34bWEtjq+8kO/p8=',
-        'IP3+GI0LVVtvyBTlGq/lShNC2RtOxfJ2mGtIsIrnGFBqcx71RP2v74WiGi/nmqf1dPZ/ygz3Djrw6gce3wwbJbA=',
-        'IPi2UTVKy7XdzPzcO6iIHZjCLc+BcMon7yM0qD3Ev4Uqc9ppGEPFIUUZJnn4n3ZSUtvM7VEBzTLznSmKCKLaHc0=',
-        'IEANqjWL0YskNlfjd4f8WlgIbelWqvU3OU8yBSHGSCIlFFLe7+cdlU9YFkaE8+EwHgZF6Rc0Jd7czV6CLqiE754=',
-        'IFpF6NZqemgwlYb+Y4tAVrqUk7b8Vwaja5rANv0sjN4aZfoJGxZWN3TMfzbWP0IbDecJR6VDLDFE5I4pIhfmmfw=',
-        'HwYKdaLwOoj7Yj/X0EtzN9Og9JtEuihOeG+C1sUv+kB2Ycf2q9RfWIBjBgfo5Bs+UMGAlbFL67zLYTW7UBX1YgU='
+        'H80QLYEdEJQ+sCKZBmEi44NvbIRiigJJB/r8Vu6YmNGVbk63hlrNxk6u+a7ZqqZLKUCSyYFpqtK4Fv51nENKSQE=',
+        'H/Auu18V8Ft51mqy6SxCvX5agX3JUn/3UuR2z9Yc74AFcf57cl4vEbPQQaV0ISgIicasjZ0cRSIWRoPjLmuG3/M=',
+        'HybNR4I3VHePD6s+13LRBlIkovmUnzwYR2GoPcRuOBjNMuT+2Gy1kvrYYmzC3dz8h36JDSbyI0NapohoTRsnVEo=',
+        'H+2Ve1nOM2+/fFD5Ss/bddMRJ10vr21ePkofH/1CKS3DPsuwJFbGYaaCuZnhY78QqT5loAbL2d80MOM+e57He1c=',
+        'IIiEch6ccUdmpT4GYcbVzjbuR5Duf9tQTER5MGYL93KsNa/T2Kj98ABqnGwygKBtmJ1SuIrCfuupSUoGHwgN5Kc=',
+        'INLnIlY2FqxIIb6XcjGg1EmTwLoMMnwe+6AVSACJd0ipEp7/Cw/aFz1G14aOXPd86TYUHuzQZQVFQBRFXqEVhfo=',
+        'IPoiiFz5fg57E4BcSyPJWciqnCuhdVPy2ayw7/JstuRiHTXSqh/wQNJw+mwm2ODD2v9ypVigyY6W0kd+yjtCTZE=',
+        'H7T3AZ9yuuYb10SEjTurwv2W9jrnSFoPAuFJ9z/kRoW1W6xf/duDP9q6zqUjHwaouFNFvJlQq8ieurH/F8RBCPc='
       ]);
 
       const tokenAddr = Base58.decode('19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPJ');
@@ -398,21 +400,21 @@ describe('bridge', () => {
     MockVM.clearLogs();
   });
 
-  it('should add a validator #1', () => {
+  xit('should add a validator', () => {
     const b = new Bridge();
     let initArgs = new bridge.initialize_arguments(validatorsAddrBytes);
 
     b.initialize(initArgs);
 
     const signatures = convertSigsToBytes([
-      'H62y5DwSG3WD4JAVSMXSI79Ofb3GpIr21t/ynStNKO4sbmpoOp2epBsf9IqqzEh4mUDlpJSuqhdEgF9fz1twpyE=',
-      'IOamsBSYnnzNQefxUBuXSTKEdOiJHYbFSSwBAQ605XPpFQ8AdgzVrHPOLScOW2a2lsGFT6H48FMT3jh3mkE/fRM=',
-      'IPZycDCz3vdboom+zMlN0xJWyTa9B2rrP5ww5OPRWz8nV8rHHKQuKvwecezg9R0lq5Ki66bz34bWEtjq+8kO/p8=',
-      'IP3+GI0LVVtvyBTlGq/lShNC2RtOxfJ2mGtIsIrnGFBqcx71RP2v74WiGi/nmqf1dPZ/ygz3Djrw6gce3wwbJbA=',
-      'IPi2UTVKy7XdzPzcO6iIHZjCLc+BcMon7yM0qD3Ev4Uqc9ppGEPFIUUZJnn4n3ZSUtvM7VEBzTLznSmKCKLaHc0=',
-      'IEANqjWL0YskNlfjd4f8WlgIbelWqvU3OU8yBSHGSCIlFFLe7+cdlU9YFkaE8+EwHgZF6Rc0Jd7czV6CLqiE754=',
-      'IFpF6NZqemgwlYb+Y4tAVrqUk7b8Vwaja5rANv0sjN4aZfoJGxZWN3TMfzbWP0IbDecJR6VDLDFE5I4pIhfmmfw=',
-      'HwYKdaLwOoj7Yj/X0EtzN9Og9JtEuihOeG+C1sUv+kB2Ycf2q9RfWIBjBgfo5Bs+UMGAlbFL67zLYTW7UBX1YgU='
+      'H45uKmYRzh7dx1AFj6BcntFR2jIP/pWwY5E75RU1tOTOPn/uqqtv7VRYrB2h3yPP9x2Ub0zHfdK6Z24hML0m7cg=',
+      'H7RBwkulIxkL2kwPq+93DZXGe6JCjV6Abmx14HQWxSOIXpssH8y4unbxdlQn5BnmZU5MLYVkZbacsfWEi30z/+U=',
+      'IKvCMTS3tlNyf8DwgkFV3URtzo0C3nUjBly3VPWCDwg7YubGrvvJpVXYCl3Vl2AiqJ7WZjL0c3KR8AC2aSAJBM8=',
+      'HwTiBABA7fJLB198YG2/Zx7RVIzK2NTn5kocA5mQeeauHCYnjsqkb4+pTIE5v2D9BwyvmLPCHudVqTEU3Kipt2A=',
+      'H0EVliEHi1CUURle5qWobakp5AKA9NaBRcDBsoXifgbjCFmigo6q1zDhLiLzcFTvKkbQfHMwX2bZDudhLjEOeOU=',
+      'H2NifuR0/STtBJQc5UkEIgwXNiybV1uVtCO6mplTu35wGgJSSPWjibwl7JOSW95tqAdUc0p7W437bhcvD5fX0ic=',
+      'IAvMl4F4Iii+UlJcKB9pr4zsVlaUBm+xDa0VeWEZMximA9FePyOy9LmL/JWDP2TZGGyC0N1p+WZ+kj9FsvBEJaw=',
+      'IKb6TP5XFg1VZMRwDc87FL4+8Wy8gZKItSJ9TaNa5HNJfKGZKHm8jv8X63EPLQxTFgp5srI/4quxyNeBun1RLkk='
     ]);
 
     const validatorAddr = Base58.decode('19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPJ');
@@ -431,7 +433,7 @@ describe('bridge', () => {
     expect(Arrays.equal(ev.impacted[0], validatorAddr)).toBe(true);
   });
 
-  it('should not add a validator', () => {
+  xit('should not add a validator', () => {
     const b = new Bridge();
     let initArgs = new bridge.initialize_arguments(validatorsAddrBytes);
 
@@ -442,14 +444,14 @@ describe('bridge', () => {
     expect(() => {
       const b = new Bridge();
       const signatures = convertSigsToBytes([
-        'H62y5DwSG3WD4JAVSMXSI79Ofb3GpIr21t/ynStNKO4sbmpoOp2epBsf9IqqzEh4mUDlpJSuqhdEgF9fz1twpyE=',
-        'IOamsBSYnnzNQefxUBuXSTKEdOiJHYbFSSwBAQ605XPpFQ8AdgzVrHPOLScOW2a2lsGFT6H48FMT3jh3mkE/fRM=',
-        'IPZycDCz3vdboom+zMlN0xJWyTa9B2rrP5ww5OPRWz8nV8rHHKQuKvwecezg9R0lq5Ki66bz34bWEtjq+8kO/p8=',
-        'IP3+GI0LVVtvyBTlGq/lShNC2RtOxfJ2mGtIsIrnGFBqcx71RP2v74WiGi/nmqf1dPZ/ygz3Djrw6gce3wwbJbA=',
-        'IPi2UTVKy7XdzPzcO6iIHZjCLc+BcMon7yM0qD3Ev4Uqc9ppGEPFIUUZJnn4n3ZSUtvM7VEBzTLznSmKCKLaHc0=',
-        'IEANqjWL0YskNlfjd4f8WlgIbelWqvU3OU8yBSHGSCIlFFLe7+cdlU9YFkaE8+EwHgZF6Rc0Jd7czV6CLqiE754=',
-        'IFpF6NZqemgwlYb+Y4tAVrqUk7b8Vwaja5rANv0sjN4aZfoJGxZWN3TMfzbWP0IbDecJR6VDLDFE5I4pIhfmmfw=',
-        'HwYKdaLwOoj7Yj/X0EtzN9Og9JtEuihOeG+C1sUv+kB2Ycf2q9RfWIBjBgfo5Bs+UMGAlbFL67zLYTW7UBX1YgU='
+        'H45uKmYRzh7dx1AFj6BcntFR2jIP/pWwY5E75RU1tOTOPn/uqqtv7VRYrB2h3yPP9x2Ub0zHfdK6Z24hML0m7cg=',
+        'H7RBwkulIxkL2kwPq+93DZXGe6JCjV6Abmx14HQWxSOIXpssH8y4unbxdlQn5BnmZU5MLYVkZbacsfWEi30z/+U=',
+        'IKvCMTS3tlNyf8DwgkFV3URtzo0C3nUjBly3VPWCDwg7YubGrvvJpVXYCl3Vl2AiqJ7WZjL0c3KR8AC2aSAJBM8=',
+        'HwTiBABA7fJLB198YG2/Zx7RVIzK2NTn5kocA5mQeeauHCYnjsqkb4+pTIE5v2D9BwyvmLPCHudVqTEU3Kipt2A=',
+        'H0EVliEHi1CUURle5qWobakp5AKA9NaBRcDBsoXifgbjCFmigo6q1zDhLiLzcFTvKkbQfHMwX2bZDudhLjEOeOU=',
+        'H2NifuR0/STtBJQc5UkEIgwXNiybV1uVtCO6mplTu35wGgJSSPWjibwl7JOSW95tqAdUc0p7W437bhcvD5fX0ic=',
+        'IAvMl4F4Iii+UlJcKB9pr4zsVlaUBm+xDa0VeWEZMximA9FePyOy9LmL/JWDP2TZGGyC0N1p+WZ+kj9FsvBEJaw=',
+        'IKb6TP5XFg1VZMRwDc87FL4+8Wy8gZKItSJ9TaNa5HNJfKGZKHm8jv8X63EPLQxTFgp5srI/4quxyNeBun1RLkk='
       ]);
 
       const validatorAddr = Base58.decode('19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPK');
@@ -465,14 +467,15 @@ describe('bridge', () => {
       const b = new Bridge();
 
       const signatures = convertSigsToBytes([
-        'H62y5DwSG3WD4JAVSMXSI79Ofb3GpIr21t/ynStNKO4sbmpoOp2epBsf9IqqzEh4mUDlpJSuqhdEgF9fz1twpyE=',
-        'IOamsBSYnnzNQefxUBuXSTKEdOiJHYbFSSwBAQ605XPpFQ8AdgzVrHPOLScOW2a2lsGFT6H48FMT3jh3mkE/fRM=',
-        'IPZycDCz3vdboom+zMlN0xJWyTa9B2rrP5ww5OPRWz8nV8rHHKQuKvwecezg9R0lq5Ki66bz34bWEtjq+8kO/p8=',
-        'IP3+GI0LVVtvyBTlGq/lShNC2RtOxfJ2mGtIsIrnGFBqcx71RP2v74WiGi/nmqf1dPZ/ygz3Djrw6gce3wwbJbA=',
-        'IPi2UTVKy7XdzPzcO6iIHZjCLc+BcMon7yM0qD3Ev4Uqc9ppGEPFIUUZJnn4n3ZSUtvM7VEBzTLznSmKCKLaHc0=',
-        'IEANqjWL0YskNlfjd4f8WlgIbelWqvU3OU8yBSHGSCIlFFLe7+cdlU9YFkaE8+EwHgZF6Rc0Jd7czV6CLqiE754=',
-        'IFpF6NZqemgwlYb+Y4tAVrqUk7b8Vwaja5rANv0sjN4aZfoJGxZWN3TMfzbWP0IbDecJR6VDLDFE5I4pIhfmmfw=',
-        'IFpF6NZqemgwlYb+Y4tAVrqUk7b8Vwaja5rANv0sjN4aZfoJGxZWN3TMfzbWP0IbDecJR6VDLDFE5I4pIhfmmfw=',
+        'H45uKmYRzh7dx1AFj6BcntFR2jIP/pWwY5E75RU1tOTOPn/uqqtv7VRYrB2h3yPP9x2Ub0zHfdK6Z24hML0m7cg=',
+        'H7RBwkulIxkL2kwPq+93DZXGe6JCjV6Abmx14HQWxSOIXpssH8y4unbxdlQn5BnmZU5MLYVkZbacsfWEi30z/+U=',
+        'IKvCMTS3tlNyf8DwgkFV3URtzo0C3nUjBly3VPWCDwg7YubGrvvJpVXYCl3Vl2AiqJ7WZjL0c3KR8AC2aSAJBM8=',
+        'HwTiBABA7fJLB198YG2/Zx7RVIzK2NTn5kocA5mQeeauHCYnjsqkb4+pTIE5v2D9BwyvmLPCHudVqTEU3Kipt2A=',
+        'H0EVliEHi1CUURle5qWobakp5AKA9NaBRcDBsoXifgbjCFmigo6q1zDhLiLzcFTvKkbQfHMwX2bZDudhLjEOeOU=',
+        'H0EVliEHi1CUURle5qWobakp5AKA9NaBRcDBsoXifgbjCFmigo6q1zDhLiLzcFTvKkbQfHMwX2bZDudhLjEOeOU=',
+        'H2NifuR0/STtBJQc5UkEIgwXNiybV1uVtCO6mplTu35wGgJSSPWjibwl7JOSW95tqAdUc0p7W437bhcvD5fX0ic=',
+        'IAvMl4F4Iii+UlJcKB9pr4zsVlaUBm+xDa0VeWEZMximA9FePyOy9LmL/JWDP2TZGGyC0N1p+WZ+kj9FsvBEJaw=',
+        'IKb6TP5XFg1VZMRwDc87FL4+8Wy8gZKItSJ9TaNa5HNJfKGZKHm8jv8X63EPLQxTFgp5srI/4quxyNeBun1RLkk='
       ]);
 
       const validatorAddr = Base58.decode('19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPJ');
@@ -488,11 +491,11 @@ describe('bridge', () => {
       const b = new Bridge();
 
       const signatures = convertSigsToBytes([
-        'H62y5DwSG3WD4JAVSMXSI79Ofb3GpIr21t/ynStNKO4sbmpoOp2epBsf9IqqzEh4mUDlpJSuqhdEgF9fz1twpyE=',
-        'IOamsBSYnnzNQefxUBuXSTKEdOiJHYbFSSwBAQ605XPpFQ8AdgzVrHPOLScOW2a2lsGFT6H48FMT3jh3mkE/fRM=',
-        'IPZycDCz3vdboom+zMlN0xJWyTa9B2rrP5ww5OPRWz8nV8rHHKQuKvwecezg9R0lq5Ki66bz34bWEtjq+8kO/p8=',
-        'IP3+GI0LVVtvyBTlGq/lShNC2RtOxfJ2mGtIsIrnGFBqcx71RP2v74WiGi/nmqf1dPZ/ygz3Djrw6gce3wwbJbA=',
-        'IPi2UTVKy7XdzPzcO6iIHZjCLc+BcMon7yM0qD3Ev4Uqc9ppGEPFIUUZJnn4n3ZSUtvM7VEBzTLznSmKCKLaHc0=',
+        'H45uKmYRzh7dx1AFj6BcntFR2jIP/pWwY5E75RU1tOTOPn/uqqtv7VRYrB2h3yPP9x2Ub0zHfdK6Z24hML0m7cg=',
+        'H7RBwkulIxkL2kwPq+93DZXGe6JCjV6Abmx14HQWxSOIXpssH8y4unbxdlQn5BnmZU5MLYVkZbacsfWEi30z/+U=',
+        'IKvCMTS3tlNyf8DwgkFV3URtzo0C3nUjBly3VPWCDwg7YubGrvvJpVXYCl3Vl2AiqJ7WZjL0c3KR8AC2aSAJBM8=',
+        'HwTiBABA7fJLB198YG2/Zx7RVIzK2NTn5kocA5mQeeauHCYnjsqkb4+pTIE5v2D9BwyvmLPCHudVqTEU3Kipt2A=',
+        'H0EVliEHi1CUURle5qWobakp5AKA9NaBRcDBsoXifgbjCFmigo6q1zDhLiLzcFTvKkbQfHMwX2bZDudhLjEOeOU='
       ]);
 
       const validatorAddr = Base58.decode('19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPJ');
@@ -505,14 +508,14 @@ describe('bridge', () => {
     MockVM.clearLogs();
 
     const signatures = convertSigsToBytes([
-      'H62y5DwSG3WD4JAVSMXSI79Ofb3GpIr21t/ynStNKO4sbmpoOp2epBsf9IqqzEh4mUDlpJSuqhdEgF9fz1twpyE=',
-      'IOamsBSYnnzNQefxUBuXSTKEdOiJHYbFSSwBAQ605XPpFQ8AdgzVrHPOLScOW2a2lsGFT6H48FMT3jh3mkE/fRM=',
-      'IPZycDCz3vdboom+zMlN0xJWyTa9B2rrP5ww5OPRWz8nV8rHHKQuKvwecezg9R0lq5Ki66bz34bWEtjq+8kO/p8=',
-      'IP3+GI0LVVtvyBTlGq/lShNC2RtOxfJ2mGtIsIrnGFBqcx71RP2v74WiGi/nmqf1dPZ/ygz3Djrw6gce3wwbJbA=',
-      'IPi2UTVKy7XdzPzcO6iIHZjCLc+BcMon7yM0qD3Ev4Uqc9ppGEPFIUUZJnn4n3ZSUtvM7VEBzTLznSmKCKLaHc0=',
-      'IEANqjWL0YskNlfjd4f8WlgIbelWqvU3OU8yBSHGSCIlFFLe7+cdlU9YFkaE8+EwHgZF6Rc0Jd7czV6CLqiE754=',
-      'IFpF6NZqemgwlYb+Y4tAVrqUk7b8Vwaja5rANv0sjN4aZfoJGxZWN3TMfzbWP0IbDecJR6VDLDFE5I4pIhfmmfw=',
-      'HwYKdaLwOoj7Yj/X0EtzN9Og9JtEuihOeG+C1sUv+kB2Ycf2q9RfWIBjBgfo5Bs+UMGAlbFL67zLYTW7UBX1YgU='
+      'H45uKmYRzh7dx1AFj6BcntFR2jIP/pWwY5E75RU1tOTOPn/uqqtv7VRYrB2h3yPP9x2Ub0zHfdK6Z24hML0m7cg=',
+      'H7RBwkulIxkL2kwPq+93DZXGe6JCjV6Abmx14HQWxSOIXpssH8y4unbxdlQn5BnmZU5MLYVkZbacsfWEi30z/+U=',
+      'IKvCMTS3tlNyf8DwgkFV3URtzo0C3nUjBly3VPWCDwg7YubGrvvJpVXYCl3Vl2AiqJ7WZjL0c3KR8AC2aSAJBM8=',
+      'HwTiBABA7fJLB198YG2/Zx7RVIzK2NTn5kocA5mQeeauHCYnjsqkb4+pTIE5v2D9BwyvmLPCHudVqTEU3Kipt2A=',
+      'H0EVliEHi1CUURle5qWobakp5AKA9NaBRcDBsoXifgbjCFmigo6q1zDhLiLzcFTvKkbQfHMwX2bZDudhLjEOeOU=',
+      'H2NifuR0/STtBJQc5UkEIgwXNiybV1uVtCO6mplTu35wGgJSSPWjibwl7JOSW95tqAdUc0p7W437bhcvD5fX0ic=',
+      'IAvMl4F4Iii+UlJcKB9pr4zsVlaUBm+xDa0VeWEZMximA9FePyOy9LmL/JWDP2TZGGyC0N1p+WZ+kj9FsvBEJaw=',
+      'IKb6TP5XFg1VZMRwDc87FL4+8Wy8gZKItSJ9TaNa5HNJfKGZKHm8jv8X63EPLQxTFgp5srI/4quxyNeBun1RLkk='
     ]);
 
     const validatorAddr = Base58.decode('19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPJ');
@@ -524,14 +527,14 @@ describe('bridge', () => {
       const b = new Bridge();
 
       const signatures = convertSigsToBytes([
-        'H62y5DwSG3WD4JAVSMXSI79Ofb3GpIr21t/ynStNKO4sbmpoOp2epBsf9IqqzEh4mUDlpJSuqhdEgF9fz1twpyE=',
-        'IOamsBSYnnzNQefxUBuXSTKEdOiJHYbFSSwBAQ605XPpFQ8AdgzVrHPOLScOW2a2lsGFT6H48FMT3jh3mkE/fRM=',
-        'IPZycDCz3vdboom+zMlN0xJWyTa9B2rrP5ww5OPRWz8nV8rHHKQuKvwecezg9R0lq5Ki66bz34bWEtjq+8kO/p8=',
-        'IP3+GI0LVVtvyBTlGq/lShNC2RtOxfJ2mGtIsIrnGFBqcx71RP2v74WiGi/nmqf1dPZ/ygz3Djrw6gce3wwbJbA=',
-        'IPi2UTVKy7XdzPzcO6iIHZjCLc+BcMon7yM0qD3Ev4Uqc9ppGEPFIUUZJnn4n3ZSUtvM7VEBzTLznSmKCKLaHc0=',
-        'IEANqjWL0YskNlfjd4f8WlgIbelWqvU3OU8yBSHGSCIlFFLe7+cdlU9YFkaE8+EwHgZF6Rc0Jd7czV6CLqiE754=',
-        'IFpF6NZqemgwlYb+Y4tAVrqUk7b8Vwaja5rANv0sjN4aZfoJGxZWN3TMfzbWP0IbDecJR6VDLDFE5I4pIhfmmfw=',
-        'HwYKdaLwOoj7Yj/X0EtzN9Og9JtEuihOeG+C1sUv+kB2Ycf2q9RfWIBjBgfo5Bs+UMGAlbFL67zLYTW7UBX1YgU='
+        'H45uKmYRzh7dx1AFj6BcntFR2jIP/pWwY5E75RU1tOTOPn/uqqtv7VRYrB2h3yPP9x2Ub0zHfdK6Z24hML0m7cg=',
+        'H7RBwkulIxkL2kwPq+93DZXGe6JCjV6Abmx14HQWxSOIXpssH8y4unbxdlQn5BnmZU5MLYVkZbacsfWEi30z/+U=',
+        'IKvCMTS3tlNyf8DwgkFV3URtzo0C3nUjBly3VPWCDwg7YubGrvvJpVXYCl3Vl2AiqJ7WZjL0c3KR8AC2aSAJBM8=',
+        'HwTiBABA7fJLB198YG2/Zx7RVIzK2NTn5kocA5mQeeauHCYnjsqkb4+pTIE5v2D9BwyvmLPCHudVqTEU3Kipt2A=',
+        'H0EVliEHi1CUURle5qWobakp5AKA9NaBRcDBsoXifgbjCFmigo6q1zDhLiLzcFTvKkbQfHMwX2bZDudhLjEOeOU=',
+        'H2NifuR0/STtBJQc5UkEIgwXNiybV1uVtCO6mplTu35wGgJSSPWjibwl7JOSW95tqAdUc0p7W437bhcvD5fX0ic=',
+        'IAvMl4F4Iii+UlJcKB9pr4zsVlaUBm+xDa0VeWEZMximA9FePyOy9LmL/JWDP2TZGGyC0N1p+WZ+kj9FsvBEJaw=',
+        'IKb6TP5XFg1VZMRwDc87FL4+8Wy8gZKItSJ9TaNa5HNJfKGZKHm8jv8X63EPLQxTFgp5srI/4quxyNeBun1RLkk='
       ]);
 
       const validatorAddr = Base58.decode('19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPJ');
