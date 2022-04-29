@@ -400,7 +400,7 @@ describe('bridge', () => {
     MockVM.clearLogs();
   });
 
-  xit('should add a validator', () => {
+  it('should add a validator', () => {
     const b = new Bridge();
     let initArgs = new bridge.initialize_arguments(validatorsAddrBytes);
 
@@ -433,7 +433,7 @@ describe('bridge', () => {
     expect(Arrays.equal(ev.impacted[0], validatorAddr)).toBe(true);
   });
 
-  xit('should not add a validator', () => {
+  it('should not add a validator', () => {
     const b = new Bridge();
     let initArgs = new bridge.initialize_arguments(validatorsAddrBytes);
 
@@ -460,7 +460,7 @@ describe('bridge', () => {
       b.add_validator(addValidatorArgs);
     }).toThrow();
 
-    expect(MockVM.getLogs()).toStrictEqual(['16bZDH5igFMJG8BoNMkJVdKsY1yVDB5S5b is not a validator']);
+    expect(MockVM.getLogs()).toStrictEqual(['15Q6zC8Q4mHy3AoCKb2bEfLaGrzuUGjtGj is not a validator']);
     MockVM.clearLogs();
 
     expect(() => {
@@ -484,7 +484,7 @@ describe('bridge', () => {
       b.add_validator(addValidatorArgs);
     }).toThrow();
 
-    expect(MockVM.getLogs()).toStrictEqual(['validator 1MwE1VWBWyRNDWcdgDGNChatXBU73Sc42p already signed']);
+    expect(MockVM.getLogs()).toStrictEqual(['validator 1FTx6dfpvSpyToKmkdAAQsVHW6DsyqSeHZ already signed']);
     MockVM.clearLogs();
 
     expect(() => {
