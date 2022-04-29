@@ -6,6 +6,7 @@ import { Transfers } from './state/Transfers';
 import { Validators } from './state/Validators';
 import { WrappedTokens } from './state/WrappedTokens';
 import { Pausable } from './util/Pausable';
+import { ReentrancyGuard } from './util/ReentrancyGuard';
 
 export class Bridge {
   _contractId: Uint8Array;
@@ -146,9 +147,8 @@ export class Bridge {
     // cannot call when contract is paused
     new Pausable(this._contractId).whenNotPaused();
 
-    // contracts cannot call this function (pseudo reentrancy guard)
-    const callerData = System.getCaller();
-    System.require(callerData.caller == null, 'cannot call from a contract');
+    // reentrancy guard
+    const reentrancyGuard = new ReentrancyGuard(this._contractId);
 
     const from = args.from!;
     const token = args.token!;
@@ -196,6 +196,8 @@ export class Bridge {
     const event = new bridge.transfer_tokens_event(from, token, normalizedAmount, recipient);
     System.event('bridge.transfer_tokens', Protobuf.encode(event, bridge.transfer_tokens_event.encode), [from]);
 
+    reentrancyGuard.reset();
+
     return new bridge.transfer_tokens_result();
   }
 
@@ -205,9 +207,8 @@ export class Bridge {
     // cannot call when contract is paused
     new Pausable(this._contractId).whenNotPaused();
 
-    // contracts cannot call this function (pseudo reentrancy guard)
-    const callerData = System.getCaller();
-    System.require(callerData.caller == null, 'cannot call from a contract');
+    // reentrancy guard
+    const reentrancyGuard = new ReentrancyGuard(this._contractId);
 
     const transaction_id = args.transaction_id!;
     const token = args.token!;
@@ -246,6 +247,8 @@ export class Bridge {
     } else {
       System.require(tokenContract.transfer(this._contractId, recipient, transferAmount), 'transfer of tokens failed');
     }
+
+    reentrancyGuard.reset();
 
     return new bridge.complete_transfer_result();
   }
