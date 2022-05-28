@@ -19,7 +19,7 @@ const CONTRACT_ID = utils.decodeBase58('1DQzuCcTKacbs9GGScRTU1Hc8BsyARTPqe');
 
   for (let index = 0; index < nbValidators; index++) {
     validators[index] = Signer.fromSeed(`validator ${index}`);
-    console.log('validator', index, validators[index].getAddress());
+    console.log('validator', index, validators[index].getAddress(), validators[index].getPrivateKey('wif', false));
   }
 
   const sign = async (buffer) => {
@@ -46,16 +46,16 @@ const CONTRACT_ID = utils.decodeBase58('1DQzuCcTKacbs9GGScRTU1Hc8BsyARTPqe');
  */
   let buffer = completeTransferHashProto.encode({
     action: actionIdProto.values['complete_transfer'],
-    transaction_id: utils.toUint8Array('0x418bea66a16fc317ece4a3a4815beca64bafc93e99fe56031850593ca9d56f94'),
+    transaction_id: utils.toUint8Array('0xe70f101e559301f9611a680a344f4d58ead8449a281090bbb6ccc4afd6be8990'),
     token: utils.decodeBase58('19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPJ'),
     recipient: utils.decodeBase58('1GE2JqXw5LMQaU1sj82Dy8ZEe2BRXQS1cs'),
-    amount: '123',
+    amount: '25000',
     contract_id: CONTRACT_ID
   }).finish();
 
   let sigs = await sign(buffer);
 
-  // console.log(sigs);
+  console.log('complete_transfer', sigs);
 
   buffer = addRemoveActionHashProto.encode({
     action: actionIdProto.values['add_supported_token'],
